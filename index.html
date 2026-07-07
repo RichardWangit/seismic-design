@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>震區水平譜加速度係數典籍查覽</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="gold-bar gold-bar--top"></div>
+
+  <main class="scroll">
+    <div class="scroll__inner">
+
+      <header class="page-header">
+        <h1 class="page-header__title">
+          震區水平譜加速度係數<span class="page-header__seal">典</span>
+        </h1>
+        <p class="page-header__subtitle">
+          設計值 D<sub>SS</sub>、D<sub>S1</sub>&emsp;最大考量值 M<sub>SS</sub>、M<sub>S1</sub>&emsp;鄰近斷層 &amp; 近斷層效應查覽
+        </p>
+      </header>
+
+      <!-- ══ 查詢區 ══ -->
+      <section class="query-box" aria-label="查詢條件">
+        <span class="query-box__label">◈ 查詢區域 ◈</span>
+
+        <!-- 列一：縣市 + 鄉鎮 -->
+        <div class="query-box__row">
+          <div class="form-group">
+            <label for="county-select">縣　市</label>
+            <select id="county-select">
+              <option value="">── 請選擇縣市 ──</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="district-select">鄉鎮市區</label>
+            <select id="district-select" disabled>
+              <option value="">── 請先選擇縣市 ──</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 列二：工址位置判斷（JS 控制顯示） -->
+        <div id="zone-row" class="zone-row">
+          <div class="zone-row__label">⊹ 工址位置判斷</div>
+          <div class="zone-toggle">
+            <label id="btn-general" class="zone-btn zone-btn--general">
+              <input type="radio" name="zone" value="general" id="zone-general">
+              <span class="zone-btn__icon">◎</span>
+              <span class="zone-btn__text">
+                非近斷層
+                <small>距離 ≥ 14 km，採表 2-1</small>
+              </span>
+            </label>
+            <label id="btn-near" class="zone-btn zone-btn--near">
+              <input type="radio" name="zone" value="near" id="zone-near">
+              <span class="zone-btn__icon">⚡</span>
+              <span class="zone-btn__text">
+                屬近斷層
+                <small>距離 &lt; 14 km，採表 2-3 內插</small>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 列三：斷層選擇 + 距離輸入（JS 控制顯示） -->
+        <div id="near-row" class="near-row">
+          <div class="form-group">
+            <label for="fault-select">選擇鄰近斷層</label>
+            <select id="fault-select">
+              <option value="">── 請選擇斷層 ──</option>
+            </select>
+          </div>
+          <div class="form-group form-group--dist">
+            <label for="dist-input">工址與斷層距離
+              <span class="dist-hint">（公里，&lt; 14 km）</span>
+            </label>
+            <div class="dist-input-wrap">
+              <input type="number" id="dist-input"
+                     min="0.1" max="13.9" step="0.1"
+                     placeholder="例：5.5" autocomplete="off">
+              <span class="dist-unit">km</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 查詢按鈕 -->
+        <div class="query-box__row query-box__row--btn">
+          <button class="btn-query" id="query-btn" type="button">查　覽</button>
+        </div>
+      </section>
+
+      <!-- ══ 結果區 ══ -->
+      <section id="result" class="result" aria-live="polite">
+        <div class="result__heading">
+          <span class="result__county"   id="result-county"></span>
+          <span class="result__district" id="result-district"></span>
+        </div>
+        <div class="result__mode" id="result-mode"></div>
+        <div class="coeff-grid">
+          <div class="coeff-cell">
+            <span class="coeff-cell__badge coeff-cell__badge--design">設計值</span>
+            <div class="coeff-cell__desc">短週期設計水平譜加速度係數</div>
+            <div class="coeff-cell__symbol">D<sub>SS</sub></div>
+            <div class="coeff-cell__value" id="val-dss">—</div>
+            <div class="coeff-cell__note">（短週期 · 設計地震）</div>
+          </div>
+          <div class="coeff-cell">
+            <span class="coeff-cell__badge coeff-cell__badge--design">設計值</span>
+            <div class="coeff-cell__desc">一秒週期設計水平譜加速度係數</div>
+            <div class="coeff-cell__symbol">D<sub>S1</sub></div>
+            <div class="coeff-cell__value" id="val-ds1">—</div>
+            <div class="coeff-cell__note">（一秒週期 · 設計地震）</div>
+          </div>
+          <div class="coeff-cell">
+            <span class="coeff-cell__badge coeff-cell__badge--max">最大考量</span>
+            <div class="coeff-cell__desc">短週期最大考量水平譜加速度係數</div>
+            <div class="coeff-cell__symbol">M<sub>SS</sub></div>
+            <div class="coeff-cell__value" id="val-mss">—</div>
+            <div class="coeff-cell__note">（短週期 · 最大考量地震）</div>
+          </div>
+          <div class="coeff-cell">
+            <span class="coeff-cell__badge coeff-cell__badge--max">最大考量</span>
+            <div class="coeff-cell__desc">一秒週期最大考量水平譜加速度係數</div>
+            <div class="coeff-cell__symbol">M<sub>S1</sub></div>
+            <div class="coeff-cell__value" id="val-ms1">—</div>
+            <div class="coeff-cell__note">（一秒週期 · 最大考量地震）</div>
+          </div>
+        </div>
+        <div class="zone-row">
+          <div class="zone-row__label">⊹ 工址地盤放大計算（依 2.5 節，表 2-4 內插）</div>
+          <div class="query-box__row">
+            <div class="form-group">
+              <label for="soil-class-select">選擇地盤分類</label>
+              <select id="soil-class-select">
+                <option value="">── 請選擇地盤分類 ──</option>
+              </select>
+            </div>
+            <button class="btn-query" id="soil-calc-btn" type="button">計　算</button>
+          </div>
+        </div>
+
+        <div class="coeff-grid" id="site-design-grid" style="display:none;">
+          <div class="coeff-cell">
+            <span class="coeff-cell__badge coeff-cell__badge--design">工址設計值</span>
+            <div class="coeff-cell__desc">工址短週期設計水平譜加速度係數</div>
+            <div class="coeff-cell__symbol">S<sub>DS</sub></div>
+            <div class="coeff-cell__value" id="val-sds">—</div>
+          </div>
+          <div class="coeff-cell">
+            <span class="coeff-cell__badge coeff-cell__badge--design">工址設計值</span>
+            <div class="coeff-cell__desc">工址一秒週期設計水平譜加速度係數</div>
+            <div class="coeff-cell__symbol">S<sub>D1</sub></div>
+            <div class="coeff-cell__value" id="val-sd1">—</div>
+          </div>
+          <div class="coeff-cell">
+            <span class="coeff-cell__badge coeff-cell__badge--max">工址最大考量值</span>
+            <div class="coeff-cell__desc">工址短週期最大考量水平譜加速度係數</div>
+            <div class="coeff-cell__symbol">S<sub>MS</sub></div>
+            <div class="coeff-cell__value" id="val-sms">—</div>
+          </div>
+          <div class="coeff-cell">
+            <span class="coeff-cell__badge coeff-cell__badge--max">工址最大考量值</span>
+            <div class="coeff-cell__desc">工址一秒週期最大考量水平譜加速度係數</div>
+            <div class="coeff-cell__symbol">S<sub>M1</sub></div>
+            <div class="coeff-cell__value" id="val-sm1">—</div>
+          </div>
+        </div>
+
+        <div class="fault-box">
+          <div class="fault-box__title">鄰近之活動斷層</div>
+          <div class="fault-tags" id="fault-tags"></div>
+        </div>
+      </section>
+
+      <p class="placeholder" id="placeholder">選擇縣市與鄉鎮市區，查覽震區加速度係數</p>
+      <div class="ornament" aria-hidden="true">⊸ · · · ⊷</div>
+
+    </div>
+  </main>
+
+  <div class="gold-bar gold-bar--bottom"></div>
+  <footer class="page-footer">
+    依據《建築物耐震設計規範及解說》表 2-1 及表 2-3　資料來源：內政部營建署
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
