@@ -348,6 +348,14 @@ input[type="number"]:focus {
 .coeff-cell__symbol{ font-size: 0.85rem; color: var(--gold); font-style: italic; margin-bottom: 0.25rem; }
 .coeff-cell__value { font-size: 2.2rem; font-weight: 900; color: var(--vermillion-dark); line-height: 1; letter-spacing: -0.02em; }
 .coeff-cell__note  { font-size: 0.68rem; color: var(--ink-faint); margin-top: 0.25rem; }
+.coeff-cell__formula {
+  font-size: 0.66rem; color: var(--ink-faint); font-style: italic;
+  margin-top: 0.4rem; opacity: 0.85; letter-spacing: 0.02em;
+}
+.coeff-cell__factor {
+  font-size: 0.78rem; color: var(--gold); margin-top: 0.15rem;
+}
+.coeff-cell__factor span { font-weight: 700; }
 
 /* 斷層區 */
 .fault-box {
