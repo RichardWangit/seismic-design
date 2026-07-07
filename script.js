@@ -204,15 +204,25 @@ function onSoilCalc() {
   const faSs   = amplificationData.fa.ss_nodes;
   const fvS1   = amplificationData.fv.s1_nodes;
 
-  const sds = interpNodes(faSs, faVals, lastCoeffs.dss) * lastCoeffs.dss;
-  const sd1 = interpNodes(fvS1, fvVals, lastCoeffs.ds1) * lastCoeffs.ds1;
-  const sms = interpNodes(faSs, faVals, lastCoeffs.mss) * lastCoeffs.mss;
-  const sm1 = interpNodes(fvS1, fvVals, lastCoeffs.ms1) * lastCoeffs.ms1;
+  const faDss = interpNodes(faSs, faVals, lastCoeffs.dss);
+  const fvDs1 = interpNodes(fvS1, fvVals, lastCoeffs.ds1);
+  const faMss = interpNodes(faSs, faVals, lastCoeffs.mss);
+  const fvMs1 = interpNodes(fvS1, fvVals, lastCoeffs.ms1);
+
+  const sds = faDss * lastCoeffs.dss;
+  const sd1 = fvDs1 * lastCoeffs.ds1;
+  const sms = faMss * lastCoeffs.mss;
+  const sm1 = fvMs1 * lastCoeffs.ms1;
 
   document.getElementById('val-sds').textContent = sds.toFixed(2);
   document.getElementById('val-sd1').textContent = sd1.toFixed(2);
   document.getElementById('val-sms').textContent = sms.toFixed(2);
   document.getElementById('val-sm1').textContent = sm1.toFixed(2);
+
+  document.getElementById('val-fa-sds').textContent = faDss.toFixed(2);
+  document.getElementById('val-fv-sd1').textContent = fvDs1.toFixed(2);
+  document.getElementById('val-fa-sms').textContent = faMss.toFixed(2);
+  document.getElementById('val-fv-sm1').textContent = fvMs1.toFixed(2);
 
   show(elSiteDesignGrid);
 }
