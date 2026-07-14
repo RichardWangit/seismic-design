@@ -415,6 +415,8 @@ input[type="number"]:focus {
 }
 .coeff-cell__factor span { font-weight: 700; }
 
+.coeff-grid--single { grid-template-columns: 1fr; }
+
 /* 斷層區 */
 .fault-box {
   background: rgba(143,174,107,0.08);

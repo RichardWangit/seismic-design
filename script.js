@@ -8,6 +8,7 @@
 let seismicData       = [];
 let nearFaultData     = null;
 let amplificationData = null;
+let mceData           = null;
 const DIST_NODES  = [1, 3, 5, 7, 9, 11, 13, 14];
 
 /* ── 狀態變數（不依賴 DOM radio.checked） ── */
@@ -20,6 +21,10 @@ let elCounty, elDistrict, elZoneRow, elBtnGeneral, elBtnNear,
     elNearRow, elFaultSelect, elDistInput, elQueryBtn,
     elResult, elPlaceholder, elSoilSelect, elSoilBtn, elSiteDesignGrid,
     elNavItems, elContentPanels;
+
+/* ── B 區 DOM refs ── */
+let elBNoData, elBSiteGrid, elBT0Row, elBPeriodBox, elBBuildingType,
+    elBHeightInput, elBCalcBtn, elBResult;
 
 document.addEventListener('DOMContentLoaded', () => {
   elCounty      = document.getElementById('county-select');
@@ -39,11 +44,24 @@ document.addEventListener('DOMContentLoaded', () => {
   elNavItems       = document.querySelectorAll('.nav-item');
   elContentPanels  = document.querySelectorAll('.content-panel');
 
+  elBNoData        = document.getElementById('b-no-data');
+  elBSiteGrid      = document.getElementById('b-site-grid');
+  elBT0Row         = document.getElementById('b-t0-row');
+  elBPeriodBox     = document.getElementById('b-period-box');
+  elBBuildingType  = document.getElementById('b-building-type');
+  elBHeightInput   = document.getElementById('b-height-input');
+  elBCalcBtn       = document.getElementById('b-calc-btn');
+  elBResult        = document.getElementById('b-result');
+
   /* 初始全隱藏 */
   hide(elZoneRow);
   hide(elNearRow);
   hide(elResult);
   hide(elSiteDesignGrid);
+  hide(elBSiteGrid);
+  hide(elBT0Row);
+  hide(elBPeriodBox);
+  hide(elBResult);
 
   /* 事件綁定 */
   elCounty.addEventListener('change', onCountyChange);
@@ -52,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
   elBtnNear.addEventListener('click',    () => selectZone('near'));
   elQueryBtn.addEventListener('click', onQuery);
   elSoilBtn.addEventListener('click', onSoilCalc);
+  elBCalcBtn.addEventListener('click', onBCalc);
   elNavItems.forEach(btn => btn.addEventListener('click', () => selectPanel(btn.dataset.panel)));
 
   loadData();
@@ -62,20 +81,23 @@ document.addEventListener('DOMContentLoaded', () => {
    ════════════════════════════ */
 async function loadData() {
   try {
-    const [r1, r2, r3] = await Promise.all([
+    const [r1, r2, r3, r4] = await Promise.all([
       fetch('seismic.json'),
       fetch('near_fault.json'),
-      fetch('amplification.json')
+      fetch('amplification.json'),
+      fetch('MCE.json')
     ]);
-    if (!r1.ok || !r2.ok || !r3.ok) throw new Error(`HTTP ${r1.status}/${r2.status}/${r3.status}`);
+    if (!r1.ok || !r2.ok || !r3.ok || !r4.ok) throw new Error(`HTTP ${r1.status}/${r2.status}/${r3.status}/${r4.status}`);
     seismicData       = await r1.json();
     nearFaultData     = await r2.json();
     amplificationData = await r3.json();
+    mceData           = await r4.json();
     populateCounties();
     populateSoilClasses();
+    populateBuildingTypes();
   } catch (err) {
     console.error('資料載入失敗：', err);
-    elPlaceholder.textContent = '⚠ 資料載入失敗，請確認 seismic.json、near_fault.json 與 amplification.json 位於同一目錄。';
+    elPlaceholder.textContent = '⚠ 資料載入失敗，請確認 seismic.json、near_fault.json、amplification.json 與 MCE.json 位於同一目錄。';
   }
 }
 
@@ -94,6 +116,15 @@ function populateSoilClasses() {
     opt.value = c.class;
     opt.textContent = c.label;
     elSoilSelect.appendChild(opt);
+  });
+}
+
+function populateBuildingTypes() {
+  mceData.building_period.types.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t.id;
+    opt.textContent = t.label;
+    elBBuildingType.appendChild(opt);
   });
 }
 
@@ -363,9 +394,9 @@ function resetFrom(level) {
 }
 
 function show(el) {
-  // near-row is a flex container; site-design-grid is a grid container; zone-row and result are block
+  // near-row is a flex container; site-design-grid/b-site-grid are grid containers; zone-row and result are block
   if (el.id === 'near-row') el.style.display = 'flex';
-  else if (el.id === 'site-design-grid') el.style.display = 'grid';
+  else if (el.id === 'site-design-grid' || el.id === 'b-site-grid') el.style.display = 'grid';
   else el.style.display = 'block';
 }
 function hide(el) { el.style.display = 'none'; }
@@ -376,4 +407,116 @@ function hide(el) { el.style.display = 'none'; }
 function selectPanel(panelId) {
   elNavItems.forEach(btn => btn.classList.toggle('is-active', btn.dataset.panel === panelId));
   elContentPanels.forEach(sec => sec.classList.toggle('is-active', sec.id === panelId));
+  if (panelId === 'panel-b') refreshPanelB();
+}
+
+/* ════════════════════════════
+   B 區：工址設計與最大考量水平譜加速度係數（2.6 節）
+   ════════════════════════════ */
+
+/* 切入 B 區時，同步 A 區之工址放大結果（siteCoeffs） */
+function refreshPanelB() {
+  if (!siteCoeffs) {
+    show(elBNoData);
+    hide(elBSiteGrid);
+    hide(elBT0Row);
+    hide(elBPeriodBox);
+    hide(elBResult);
+    return;
+  }
+
+  hide(elBNoData);
+  show(elBSiteGrid);
+  show(elBT0Row);
+  show(elBPeriodBox);
+
+  document.getElementById('b-val-sds').textContent = siteCoeffs.sds.toFixed(2);
+  document.getElementById('b-val-sd1').textContent = siteCoeffs.sd1.toFixed(2);
+  document.getElementById('b-val-sms').textContent = siteCoeffs.sms.toFixed(2);
+  document.getElementById('b-val-sm1').textContent = siteCoeffs.sm1.toFixed(2);
+
+  /* (2-6) 式：短週期與中、長週期分界 */
+  const t0d = siteCoeffs.sd1 / siteCoeffs.sds;
+  const t0m = siteCoeffs.sm1 / siteCoeffs.sms;
+
+  document.getElementById('b-val-t0d').textContent = t0d.toFixed(4) + ' 秒';
+  document.getElementById('b-t0d-formula').innerHTML =
+    `T<sub>0</sub><sup>D</sup> = S<sub>D1</sub> / S<sub>DS</sub> = ${siteCoeffs.sd1.toFixed(2)} / ${siteCoeffs.sds.toFixed(2)} = ${t0d.toFixed(4)} 秒　(2-6)`;
+
+  document.getElementById('b-val-t0m').textContent = t0m.toFixed(4) + ' 秒';
+  document.getElementById('b-t0m-formula').innerHTML =
+    `T<sub>0</sub><sup>M</sup> = S<sub>M1</sub> / S<sub>MS</sub> = ${siteCoeffs.sm1.toFixed(2)} / ${siteCoeffs.sms.toFixed(2)} = ${t0m.toFixed(4)} 秒　(2-6)`;
+}
+
+/* 計算建築物基本振動週期 T，並依表 2-5(a)／2-5(b) 求 SaD、SaM */
+function onBCalc() {
+  if (!siteCoeffs) { alert('請先於 A 區完成工址地盤放大計算'); return; }
+  if (!elBBuildingType.value) { alert('請先選擇建築物類型'); return; }
+
+  const hn = parseFloat(elBHeightInput.value);
+  if (isNaN(hn) || hn <= 0) { alert('請輸入正確的基面至屋頂面高度（公尺，正數）'); return; }
+
+  const type = mceData.building_period.types.find(t => t.id === elBBuildingType.value);
+  const n    = mceData.building_period.exponent;
+
+  /* (2-7)／(2-8)／(2-9) 式：T = 係數 × hn^0.75 */
+  const T = type.coefficient * Math.pow(hn, n);
+
+  document.getElementById('b-val-t').textContent = T.toFixed(4) + ' 秒';
+  document.getElementById('b-t-formula').innerHTML =
+    `T = ${type.coefficient} × h<sub>n</sub><sup>${n}</sup> = ${type.coefficient} × ${hn}<sup>${n}</sup> = ${type.coefficient} × ${Math.pow(hn, n).toFixed(4)} = ${T.toFixed(4)} 秒　${type.eq}`;
+
+  const t0d = siteCoeffs.sd1 / siteCoeffs.sds;
+  const t0m = siteCoeffs.sm1 / siteCoeffs.sms;
+
+  const sad = calcSpectralAccel(T, t0d, siteCoeffs.sds, siteCoeffs.sd1, 'D');
+  const sam = calcSpectralAccel(T, t0m, siteCoeffs.sms, siteCoeffs.sm1, 'M');
+
+  document.getElementById('b-sad-range').textContent   = sad.label;
+  document.getElementById('b-val-sad').textContent     = sad.value.toFixed(4);
+  document.getElementById('b-sad-formula').innerHTML   = sad.formula;
+
+  document.getElementById('b-sam-range').textContent   = sam.label;
+  document.getElementById('b-val-sam').textContent     = sam.value.toFixed(4);
+  document.getElementById('b-sam-formula').innerHTML   = sam.formula;
+
+  show(elBResult);
+}
+
+/* 依表 2-5(a)／2-5(b) 之四段式規則，求反應譜加速度係數（D：設計地震；M：最大考量地震） */
+function calcSpectralAccel(T, t0, Ss, S1, kind) {
+  const sub  = kind === 'D' ? '<sub>DS</sub>'  : '<sub>MS</sub>';
+  const sub1 = kind === 'D' ? '<sub>D1</sub>'  : '<sub>M1</sub>';
+  const subA = kind === 'D' ? '<sub>aD</sub>'  : '<sub>aM</sub>';
+  const t0sup = kind === 'D' ? 'T<sub>0</sub><sup>D</sup>' : 'T<sub>0</sub><sup>M</sup>';
+
+  if (T <= 0.2 * t0) {
+    const value = Ss * (0.4 + 3 * T / t0);
+    return {
+      label: '較短週期（T ≤ 0.2' + (kind === 'D' ? 'T0D' : 'T0M') + '）',
+      value,
+      formula: `S${subA} = S${sub} × (0.4 + 3T / ${t0sup}) = ${Ss.toFixed(2)} × (0.4 + 3×${T.toFixed(4)}/${t0.toFixed(4)}) = ${value.toFixed(4)}`
+    };
+  }
+  if (T <= t0) {
+    return {
+      label: '短週期（0.2' + (kind === 'D' ? 'T0D' : 'T0M') + ' < T ≤ ' + (kind === 'D' ? 'T0D' : 'T0M') + '）',
+      value: Ss,
+      formula: `S${subA} = S${sub} = ${Ss.toFixed(4)}`
+    };
+  }
+  if (T <= 2.5 * t0) {
+    const value = S1 / T;
+    return {
+      label: '中週期（' + (kind === 'D' ? 'T0D' : 'T0M') + ' < T ≤ 2.5' + (kind === 'D' ? 'T0D' : 'T0M') + '）',
+      value,
+      formula: `S${subA} = S${sub1} / T = ${S1.toFixed(2)} / ${T.toFixed(4)} = ${value.toFixed(4)}`
+    };
+  }
+  const value = 0.4 * Ss;
+  return {
+    label: '長週期（2.5' + (kind === 'D' ? 'T0D' : 'T0M') + ' < T）',
+    value,
+    formula: `S${subA} = 0.4 × S${sub} = 0.4 × ${Ss.toFixed(2)} = ${value.toFixed(4)}`
+  };
 }
