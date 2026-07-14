@@ -13,11 +13,13 @@ const DIST_NODES  = [1, 3, 5, 7, 9, 11, 13, 14];
 /* ── 狀態變數（不依賴 DOM radio.checked） ── */
 let selectedZone  = '';   // 'general' | 'near' | ''
 let lastCoeffs    = null; // 最近一次查覽結果 { dss, ds1, mss, ms1 }，供地盤放大計算使用
+let siteCoeffs    = null; // 工址放大後係數 { sds, sd1, sms, sm1, faDss, fvDs1, faMss, fvMs1 }，供未來 B/C 區塊取用
 
 /* ── DOM refs ── */
 let elCounty, elDistrict, elZoneRow, elBtnGeneral, elBtnNear,
     elNearRow, elFaultSelect, elDistInput, elQueryBtn,
-    elResult, elPlaceholder, elSoilSelect, elSoilBtn, elSiteDesignGrid;
+    elResult, elPlaceholder, elSoilSelect, elSoilBtn, elSiteDesignGrid,
+    elNavItems, elContentPanels;
 
 document.addEventListener('DOMContentLoaded', () => {
   elCounty      = document.getElementById('county-select');
@@ -34,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
   elSoilSelect     = document.getElementById('soil-class-select');
   elSoilBtn        = document.getElementById('soil-calc-btn');
   elSiteDesignGrid = document.getElementById('site-design-grid');
+  elNavItems       = document.querySelectorAll('.nav-item');
+  elContentPanels  = document.querySelectorAll('.content-panel');
 
   /* 初始全隱藏 */
   hide(elZoneRow);
@@ -48,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
   elBtnNear.addEventListener('click',    () => selectZone('near'));
   elQueryBtn.addEventListener('click', onQuery);
   elSoilBtn.addEventListener('click', onSoilCalc);
+  elNavItems.forEach(btn => btn.addEventListener('click', () => selectPanel(btn.dataset.panel)));
 
   loadData();
 });
@@ -214,6 +219,8 @@ function onSoilCalc() {
   const sms = faMss * lastCoeffs.mss;
   const sm1 = fvMs1 * lastCoeffs.ms1;
 
+  siteCoeffs = { sds, sd1, sms, sm1, faDss, fvDs1, faMss, fvMs1 };
+
   document.getElementById('val-sds').textContent = sds.toFixed(2);
   document.getElementById('val-sd1').textContent = sd1.toFixed(2);
   document.getElementById('val-sms').textContent = sms.toFixed(2);
@@ -362,3 +369,11 @@ function show(el) {
   else el.style.display = 'block';
 }
 function hide(el) { el.style.display = 'none'; }
+
+/* ════════════════════════════
+   側邊選單切換（A／未來 B、C…）
+   ════════════════════════════ */
+function selectPanel(panelId) {
+  elNavItems.forEach(btn => btn.classList.toggle('is-active', btn.dataset.panel === panelId));
+  elContentPanels.forEach(sec => sec.classList.toggle('is-active', sec.id === panelId));
+}
