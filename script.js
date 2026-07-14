@@ -26,7 +26,31 @@ let elCounty, elDistrict, elZoneRow, elBtnGeneral, elBtnNear,
 let elBNoData, elBSiteGrid, elBT0Row, elBPeriodBox, elBBuildingType,
     elBHeightInput, elBCalcBtn, elBResult;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadSections();
+  initApp();
+});
+
+/* ════════════════════════════
+   區塊載入（A／B…各區內容分別置於 sections/ 目錄）
+   ════════════════════════════ */
+async function loadSections() {
+  try {
+    const [aRes, bRes] = await Promise.all([
+      fetch('sections/sec-a.html'),
+      fetch('sections/sec-b.html')
+    ]);
+    if (!aRes.ok || !bRes.ok) throw new Error(`HTTP ${aRes.status}/${bRes.status}`);
+    document.getElementById('panel-a').innerHTML = await aRes.text();
+    document.getElementById('panel-b').innerHTML = await bRes.text();
+  } catch (err) {
+    console.error('區塊載入失敗：', err);
+    document.querySelector('.app-content').innerHTML =
+      '<p class="placeholder">⚠ 區塊載入失敗，請確認 sections/ 目錄存在。</p>';
+  }
+}
+
+function initApp() {
   elCounty      = document.getElementById('county-select');
   elDistrict    = document.getElementById('district-select');
   elZoneRow     = document.getElementById('zone-row');
@@ -74,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
   elNavItems.forEach(btn => btn.addEventListener('click', () => selectPanel(btn.dataset.panel)));
 
   loadData();
-});
+}
 
 /* ════════════════════════════
    資料載入

@@ -95,22 +95,22 @@ body {
   border-left: 3px solid var(--gold); border-right: 3px solid var(--gold);
   box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
   text-align: center;
-  padding: 1.6rem 2rem 1.4rem;
-  position: relative;
+  padding: 0.5rem 2rem 0.45rem;
+  position: sticky; top: 0; z-index: 30;
 }
 .app-header::after {
-  content: ''; display: block; margin: 1rem auto 0; width: 60%; height: 2px;
+  content: ''; display: block; margin: 0.4rem auto 0; width: 60%; height: 2px;
   background: linear-gradient(90deg,
     transparent, var(--gold), var(--vermillion), var(--gold), transparent);
 }
 .app-header__title {
   font-family: 'Ma Shan Zheng', cursive;
-  font-size: 2.2rem; color: var(--vermillion-dark);
+  font-size: 1.4rem; color: var(--vermillion-dark);
   letter-spacing: 0.15em; text-shadow: 2px 2px 4px rgba(139,90,43,0.2); line-height: 1.3;
 }
 .app-header__subtitle {
-  font-size: 0.85rem; color: var(--ink-faint);
-  letter-spacing: 0.2em; margin-top: 0.5rem; font-weight: 300;
+  font-size: 0.7rem; color: var(--ink-faint);
+  letter-spacing: 0.2em; margin-top: 0.3rem; font-weight: 300;
 }
 
 /* ════════════════════════════════════════════
@@ -129,6 +129,8 @@ body {
   border: 1px solid rgba(184,134,11,0.4);
   border-radius: 4px;
   padding: 1rem;
+  position: sticky;
+  top: 76px;
 }
 .nav-list { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
 
@@ -459,7 +461,7 @@ input[type="number"]:focus {
 /* ── RWD：側欄改為堆疊在內容上方 ── */
 @media (max-width: 880px) {
   .app-body { flex-direction: column; }
-  .app-sidebar { flex-basis: auto; width: 100%; }
+  .app-sidebar { flex-basis: auto; width: 100%; position: static; }
   .nav-list { flex-direction: row; flex-wrap: wrap; }
   .nav-item { flex: 1 1 100%; }
 }
@@ -467,7 +469,7 @@ input[type="number"]:focus {
 /* ── RWD ── */
 @media (max-width: 600px) {
   .scroll__inner { padding: 1.5rem 1.2rem; }
-  .app-header__title { font-size: 1.7rem; }
+  .app-header__title { font-size: 1.15rem; }
   .coeff-grid { grid-template-columns: 1fr; }
   .query-box__row { flex-direction: column; }
   .zone-toggle { flex-direction: column; }
