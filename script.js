@@ -493,6 +493,14 @@ function onBCalc() {
   const t0d = siteCoeffs.sd1 / siteCoeffs.sds;
   const t0m = siteCoeffs.sm1 / siteCoeffs.sms;
 
+  document.getElementById('b-val-sad-02t0d').textContent = (0.2 * t0d).toFixed(4) + ' 秒';
+  document.getElementById('b-val-sad-t0d').textContent    = t0d.toFixed(4) + ' 秒';
+  document.getElementById('b-val-sad-25t0d').textContent  = (2.5 * t0d).toFixed(4) + ' 秒';
+
+  document.getElementById('b-val-sam-02t0m').textContent = (0.2 * t0m).toFixed(4) + ' 秒';
+  document.getElementById('b-val-sam-t0m').textContent    = t0m.toFixed(4) + ' 秒';
+  document.getElementById('b-val-sam-25t0m').textContent  = (2.5 * t0m).toFixed(4) + ' 秒';
+
   const sad = calcSpectralAccel(T, t0d, siteCoeffs.sds, siteCoeffs.sd1, 'D');
   const sam = calcSpectralAccel(T, t0m, siteCoeffs.sms, siteCoeffs.sm1, 'M');
 
