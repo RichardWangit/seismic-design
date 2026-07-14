@@ -1,0 +1,40 @@
+{
+  "description": "工址設計與最大考量水平譜加速度係數（表2-5(a) SaD、表2-5(b) SaM）及建築物基本振動週期計算資料（2.6節）",
+  "source": "建築物耐震設計規範及解說 表2-5(a)、表2-5(b)、(2-6)~(2-9)式",
+  "period_boundary": {
+    "description": "短週期與中、長週期之分界",
+    "formula": "T0D = SD1 / SDS ； T0M = SM1 / SMS",
+    "eq": "(2-6)"
+  },
+  "table_2_5a": {
+    "title": "一般工址或近斷層工址之工址設計水平譜加速度係數 SaD",
+    "symbol": "SaD",
+    "segments": [
+      { "id": "very_short", "label": "較短週期", "range": "T ≤ 0.2 T0D",        "formula": "SaD = SDS × (0.4 + 3T / T0D)" },
+      { "id": "short",      "label": "短週期",   "range": "0.2 T0D < T ≤ T0D",  "formula": "SaD = SDS" },
+      { "id": "mid",        "label": "中週期",   "range": "T0D < T ≤ 2.5 T0D",  "formula": "SaD = SD1 / T" },
+      { "id": "long",       "label": "長週期",   "range": "2.5 T0D < T",        "formula": "SaD = 0.4 × SDS" }
+    ]
+  },
+  "table_2_5b": {
+    "title": "一般工址或近斷層工址之工址最大考量水平譜加速度係數 SaM",
+    "symbol": "SaM",
+    "segments": [
+      { "id": "very_short", "label": "較短週期", "range": "T ≤ 0.2 T0M",        "formula": "SaM = SMS × (0.4 + 3T / T0M)" },
+      { "id": "short",      "label": "短週期",   "range": "0.2 T0M < T ≤ T0M",  "formula": "SaM = SMS" },
+      { "id": "mid",        "label": "中週期",   "range": "T0M < T ≤ 2.5 T0M",  "formula": "SaM = SM1 / T" },
+      { "id": "long",       "label": "長週期",   "range": "2.5 T0M < T",        "formula": "SaM = 0.4 × SMS" }
+    ]
+  },
+  "building_period": {
+    "description": "建築物基本振動週期經驗公式，T 單位為秒，hn 為基面至屋頂面高度（公尺）",
+    "exponent": 0.75,
+    "types": [
+      { "id": "steel_rigid_frame", "label": "鋼構造剛構架建築物（無非結構剛性牆、剪力牆或加勁構材）", "coefficient": 0.085, "eq": "(2-7)" },
+      { "id": "rc_src_eccentric",  "label": "鋼筋混凝土、鋼骨鋼筋混凝土建築物及鋼造偏心斜撐建築物",   "coefficient": 0.070, "eq": "(2-8)" },
+      { "id": "other",             "label": "其他建築物（具剛性非結構牆、剪力牆或斜撐構材）",         "coefficient": 0.050, "eq": "(2-9)" }
+    ],
+    "cu_max": 1.4,
+    "cu_note": "以其他結構力學方法計算之基本振動週期，不得大於前述經驗公式週期之 1.4 倍"
+  }
+}
