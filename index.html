@@ -3,24 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>震區水平譜加速度係數典籍查覽</title>
+  <title>設計地震力靜力法結構分析</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="gold-bar gold-bar--top"></div>
 
+  <header class="app-header">
+    <h1 class="app-header__title">設計地震力靜力法結構分析</h1>
+    <p class="app-header__subtitle">依據111年建築物耐震設計規範及解說部分規定</p>
+  </header>
+
+  <div class="app-body">
+
+    <nav class="app-sidebar" aria-label="功能選單">
+      <ul class="nav-list">
+        <li>
+          <button type="button" class="nav-item is-active" data-panel="panel-a">
+            <span class="nav-item__badge">A</span>
+            <span class="nav-item__body">
+              <span class="nav-item__title">工址短週期與一秒週期水平譜加速度係數查詢</span>
+              <span class="nav-item__desc">依表 2-1／2-3／2-4 查覽 Ds、Ms 及工址放大係數</span>
+            </span>
+            <span class="nav-item__chevron" aria-hidden="true">›</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="app-content">
+    <section class="content-panel is-active" id="panel-a">
+
   <main class="scroll">
     <div class="scroll__inner">
-
-      <header class="page-header">
-        <h1 class="page-header__title">
-          震區水平譜加速度係數<span class="page-header__seal">典</span>
-        </h1>
-        <p class="page-header__subtitle">
-          設計值 D<sub>SS</sub>、D<sub>S1</sub>&emsp;最大考量值 M<sub>SS</sub>、M<sub>S1</sub>&emsp;鄰近斷層 &amp; 近斷層效應查覽
-        </p>
-      </header>
 
       <!-- ══ 查詢區 ══ -->
       <section class="query-box" aria-label="查詢條件">
@@ -188,6 +204,11 @@
 
     </div>
   </main>
+
+    </section>
+    </div>
+
+  </div>
 
   <div class="gold-bar gold-bar--bottom"></div>
   <footer class="page-footer">
