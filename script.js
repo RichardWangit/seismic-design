@@ -106,10 +106,10 @@ function initApp() {
 async function loadData() {
   try {
     const [r1, r2, r3, r4] = await Promise.all([
-      fetch('seismic.json'),
-      fetch('near_fault.json'),
-      fetch('amplification.json'),
-      fetch('MCE.json')
+      fetch('database/seismic.json'),
+      fetch('database/near_fault.json'),
+      fetch('database/amplification.json'),
+      fetch('database/MCE.json')
     ]);
     if (!r1.ok || !r2.ok || !r3.ok || !r4.ok) throw new Error(`HTTP ${r1.status}/${r2.status}/${r3.status}/${r4.status}`);
     seismicData       = await r1.json();
@@ -121,7 +121,7 @@ async function loadData() {
     populateBuildingTypes();
   } catch (err) {
     console.error('資料載入失敗：', err);
-    elPlaceholder.textContent = '⚠ 資料載入失敗，請確認 seismic.json、near_fault.json、amplification.json 與 MCE.json 位於同一目錄。';
+    elPlaceholder.textContent = '⚠ 資料載入失敗，請確認 database 目錄下之 seismic.json、near_fault.json、amplification.json 與 MCE.json 是否存在。';
   }
 }
 

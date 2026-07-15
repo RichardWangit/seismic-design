@@ -94,14 +94,14 @@ body {
   background-image: linear-gradient(180deg, #f0e0b8 0%, #f4ead6 8%, #f5ecda 50%, #f4ead6 92%, #eddcb0 100%);
   border-left: 3px solid var(--gold); border-right: 3px solid var(--gold);
   box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
-  text-align: center;
+  text-align: left;
   padding: 0.45rem 2rem 0.4rem;
   position: sticky; top: 0; z-index: 30;
 }
 .app-header::after {
-  content: ''; display: block; margin: 0.4rem auto 0; width: 60%; height: 2px;
+  content: ''; display: block; margin: 0.4rem 0 0; width: 60%; height: 2px;
   background: linear-gradient(90deg,
-    transparent, var(--gold), var(--vermillion), var(--gold), transparent);
+    var(--vermillion), var(--gold), transparent);
 }
 .app-header__row {
   display: flex;
@@ -110,7 +110,7 @@ body {
 }
 .app-header__title {
   flex: 1 0 auto;
-  text-align: center;
+  text-align: left;
   white-space: nowrap;
   font-family: 'Ma Shan Zheng', cursive;
   font-size: 1.4rem; color: var(--vermillion-dark);
@@ -150,7 +150,7 @@ body {
 .nav-item {
   width: 100%;
   display: flex; align-items: center; gap: 0.75rem;
-  padding: 0.85rem 1rem; border-radius: 4px;
+  padding: 0.4rem 1rem; border-radius: 4px;
   border: 2px solid var(--paper-aged);
   background: linear-gradient(180deg, #fdf5e4 0%, #f0e0b8 100%);
   box-shadow: 0 3px 0 rgba(139,90,43,0.25), 0 1px 4px rgba(0,0,0,0.1);
@@ -171,15 +171,15 @@ body {
   top: 0;
 }
 .nav-item__badge {
-  flex-shrink: 0; width: 2rem; height: 2rem; border-radius: 50%;
+  flex-shrink: 0; width: 1.3rem; height: 1.3rem; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   background: var(--vermillion-dark); color: #fff;
-  font-family: 'Ma Shan Zheng', cursive; font-size: 1.1rem;
+  font-family: 'Ma Shan Zheng', cursive; font-size: 0.75rem;
   box-shadow: 1px 1px 3px rgba(0,0,0,0.25);
 }
-.nav-item__body  { flex: 1; display: flex; flex-direction: column; gap: 0.2rem; }
-.nav-item__title { font-size: 0.88rem; font-weight: 700; color: var(--ink); letter-spacing: 0.03em; line-height: 1.4; }
-.nav-item__desc  { font-size: 0.7rem; color: var(--ink-faint); letter-spacing: 0.02em; }
+.nav-item__body  { flex: 1; display: flex; flex-direction: column; gap: 0.1rem; }
+.nav-item__title { font-size: 0.82rem; font-weight: 700; color: var(--ink); letter-spacing: 0.03em; line-height: 1.25; }
+.nav-item__desc  { font-size: 0.62rem; color: var(--ink-faint); letter-spacing: 0.02em; line-height: 1.15; }
 .nav-item__chevron { flex-shrink: 0; color: var(--ink-faint); font-size: 1.1rem; }
 .nav-item.is-active .nav-item__title { color: var(--vermillion-dark); }
 
