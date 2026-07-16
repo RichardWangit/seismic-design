@@ -1,0 +1,42 @@
+  <main class="scroll">
+    <div class="scroll__inner">
+
+      <!-- ══ 用途係數選擇 ══ -->
+      <section class="query-box" aria-label="用途係數選擇">
+        <span class="query-box__label">◈ 建築物類別與用途選擇（依 2.8 節） ◈</span>
+
+        <div class="importance-layout">
+          <div class="importance-categories" id="c-categories"></div>
+
+          <div class="importance-items">
+            <p class="placeholder placeholder--inline" id="c-items-placeholder">請先於左側選擇建築物類別</p>
+            <div id="c-items-list" class="importance-items__list" style="display:none;"></div>
+            <p class="importance-note" id="c-note" style="display:none;"></p>
+          </div>
+        </div>
+
+        <div class="query-box__row query-box__row--btn">
+          <button class="btn-query" id="c-confirm-btn" type="button" disabled>確　定</button>
+        </div>
+      </section>
+
+      <!-- ══ 結果區 ══ -->
+      <section id="c-result" class="result" style="display:none;" aria-live="polite">
+        <div class="result__heading">
+          <span class="result__district" id="c-result-category"></span>
+        </div>
+        <div class="importance-note importance-note--selected" id="c-result-item"></div>
+        <div class="coeff-grid coeff-grid--single">
+          <div class="coeff-cell">
+            <div class="coeff-cell__desc">用途係數</div>
+            <div class="coeff-cell__symbol">I</div>
+            <div class="coeff-cell__value" id="c-val-i">—</div>
+          </div>
+        </div>
+      </section>
+
+      <p class="placeholder" id="c-placeholder">選擇建築物類別與所屬細項用途，查覽用途係數 I</p>
+      <div class="ornament" aria-hidden="true">⊸ · · · ⊷</div>
+
+    </div>
+  </main>
