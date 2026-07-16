@@ -311,6 +311,14 @@ select:disabled { opacity: 0.45; cursor: not-allowed; }
   top: 0;
 }
 
+/* 選中：竹綠（D 區第三選項） */
+.zone-btn--bamboo.is-selected {
+  border-color: var(--bamboo);
+  background: linear-gradient(180deg, #f6faf1 0%, #dfeccf 100%);
+  box-shadow: 0 3px 0 rgba(143,174,107,0.4), 0 0 0 2px rgba(143,174,107,0.2);
+  top: 0;
+}
+
 /* 圖示 */
 .zone-btn__icon {
   font-size: 1.5rem; line-height: 1; flex-shrink: 0;
@@ -318,6 +326,8 @@ select:disabled { opacity: 0.45; cursor: not-allowed; }
 }
 .zone-btn--general .zone-btn__icon { color: var(--gold); }
 .zone-btn--near    .zone-btn__icon { color: var(--vermillion); }
+.zone-btn--bamboo  .zone-btn__icon { color: var(--bamboo); }
+.zone-btn--bamboo.is-selected .zone-btn__text { color: #5f7a45; }
 
 /* 文字 */
 .zone-btn__text {

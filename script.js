@@ -10,16 +10,27 @@ let nearFaultData     = null;
 let amplificationData = null;
 let mceData           = null;
 let importanceData    = null;
+let ductilityData     = null;
 const DIST_NODES  = [1, 3, 5, 7, 9, 11, 13, 14];
 
 /* ── 狀態變數（不依賴 DOM radio.checked） ── */
 let selectedZone  = '';   // 'general' | 'near' | ''
 let lastCoeffs    = null; // 最近一次查覽結果 { dss, ds1, mss, ms1 }，供地盤放大計算使用
 let siteCoeffs    = null; // 工址放大後係數 { sds, sd1, sms, sm1, faDss, fvDs1, faMss, fvMs1 }，供未來 B/C 區塊取用
+let bPeriodResult = null; // B 區計算結果 { T, t0d }，供 D 區計算 Fu 使用
 
 /* ── C 區狀態變數 ── */
 let selectedCategoryId = '';
 let selectedItemId     = '';
+
+/* ── D 區狀態變數 ── */
+let selectedAlphaY       = null;
+let selectedDCategoryId  = '';
+let selectedDItemId      = '';
+let selectedR            = null;
+let selectedHeightLimit  = '';
+let selectedSiteType     = '';
+let raValue              = null;
 
 /* ── DOM refs ── */
 let elCounty, elDistrict, elZoneRow, elBtnGeneral, elBtnNear,
@@ -35,6 +46,10 @@ let elBNoData, elBSiteGrid, elBT0Row, elBPeriodBox, elBBuildingType,
 let elCCategories, elCItemsPlaceholder, elCItemsList, elCNote,
     elCConfirmBtn, elCResult, elCPlaceholder;
 
+/* ── D 區 DOM refs ── */
+let elDAlphaYGrid, elDValAlphaY, elDCategories, elDItemsPlaceholder, elDItemsList,
+    elDConfirmBtn, elDRResult, elDRaBox, elDRaGrid, elDFuBox, elDFuNoData, elDFuContent;
+
 document.addEventListener('DOMContentLoaded', async () => {
   await loadSections();
   initApp();
@@ -45,15 +60,17 @@ document.addEventListener('DOMContentLoaded', async () => {
    ════════════════════════════ */
 async function loadSections() {
   try {
-    const [aRes, bRes, cRes] = await Promise.all([
+    const [aRes, bRes, cRes, dRes] = await Promise.all([
       fetch('sections/sec-a.html'),
       fetch('sections/sec-b.html'),
-      fetch('sections/sec-c.html')
+      fetch('sections/sec-c.html'),
+      fetch('sections/sec-d.html')
     ]);
-    if (!aRes.ok || !bRes.ok || !cRes.ok) throw new Error(`HTTP ${aRes.status}/${bRes.status}/${cRes.status}`);
+    if (!aRes.ok || !bRes.ok || !cRes.ok || !dRes.ok) throw new Error(`HTTP ${aRes.status}/${bRes.status}/${cRes.status}/${dRes.status}`);
     document.getElementById('panel-a').innerHTML = await aRes.text();
     document.getElementById('panel-b').innerHTML = await bRes.text();
     document.getElementById('panel-c').innerHTML = await cRes.text();
+    document.getElementById('panel-d').innerHTML = await dRes.text();
   } catch (err) {
     console.error('區塊載入失敗：', err);
     document.querySelector('.app-content').innerHTML =
@@ -96,6 +113,19 @@ function initApp() {
   elCResult           = document.getElementById('c-result');
   elCPlaceholder      = document.getElementById('c-placeholder');
 
+  elDAlphaYGrid       = document.getElementById('d-alpha-y-grid');
+  elDValAlphaY        = document.getElementById('d-val-alpha-y');
+  elDCategories       = document.getElementById('d-categories');
+  elDItemsPlaceholder = document.getElementById('d-items-placeholder');
+  elDItemsList        = document.getElementById('d-items-list');
+  elDConfirmBtn       = document.getElementById('d-confirm-btn');
+  elDRResult          = document.getElementById('d-r-result');
+  elDRaBox            = document.getElementById('d-ra-box');
+  elDRaGrid           = document.getElementById('d-ra-grid');
+  elDFuBox            = document.getElementById('d-fu-box');
+  elDFuNoData         = document.getElementById('d-fu-no-data');
+  elDFuContent        = document.getElementById('d-fu-content');
+
   /* 初始全隱藏 */
   hide(elZoneRow);
   hide(elNearRow);
@@ -106,6 +136,11 @@ function initApp() {
   hide(elBPeriodBox);
   hide(elBResult);
   hide(elCResult);
+  hide(elDAlphaYGrid);
+  hide(elDRResult);
+  hide(elDRaBox);
+  hide(elDRaGrid);
+  hide(elDFuBox);
 
   /* 事件綁定 */
   elCounty.addEventListener('change', onCountyChange);
@@ -116,6 +151,12 @@ function initApp() {
   elSoilBtn.addEventListener('click', onSoilCalc);
   elBCalcBtn.addEventListener('click', onBCalc);
   elCConfirmBtn.addEventListener('click', onImportanceConfirm);
+  document.getElementById('btn-yield-asd').addEventListener('click', () => selectYieldMethod(1.2));
+  document.getElementById('btn-yield-lrfd').addEventListener('click', () => selectYieldMethod(1.0));
+  document.getElementById('btn-yield-rc').addEventListener('click', () => selectYieldMethod(1.5));
+  elDConfirmBtn.addEventListener('click', onDuctilityConfirm);
+  document.getElementById('btn-site-general').addEventListener('click', () => selectSiteType('general'));
+  document.getElementById('btn-site-taipei').addEventListener('click',  () => selectSiteType('taipei'));
   elNavItems.forEach(btn => btn.addEventListener('click', () => selectPanel(btn.dataset.panel)));
 
   loadData();
@@ -126,26 +167,29 @@ function initApp() {
    ════════════════════════════ */
 async function loadData() {
   try {
-    const [r1, r2, r3, r4, r5] = await Promise.all([
+    const [r1, r2, r3, r4, r5, r6] = await Promise.all([
       fetch('database/seismic.json'),
       fetch('database/near_fault.json'),
       fetch('database/amplification.json'),
       fetch('database/MCE.json'),
-      fetch('database/importance.json')
+      fetch('database/importance.json'),
+      fetch('database/ductility.json')
     ]);
-    if (!r1.ok || !r2.ok || !r3.ok || !r4.ok || !r5.ok) throw new Error(`HTTP ${r1.status}/${r2.status}/${r3.status}/${r4.status}/${r5.status}`);
+    if (!r1.ok || !r2.ok || !r3.ok || !r4.ok || !r5.ok || !r6.ok) throw new Error(`HTTP ${r1.status}/${r2.status}/${r3.status}/${r4.status}/${r5.status}/${r6.status}`);
     seismicData       = await r1.json();
     nearFaultData     = await r2.json();
     amplificationData = await r3.json();
     mceData           = await r4.json();
     importanceData    = await r5.json();
+    ductilityData      = await r6.json();
     populateCounties();
     populateSoilClasses();
     populateBuildingTypes();
     populateImportanceCategories();
+    populateDuctilityCategories();
   } catch (err) {
     console.error('資料載入失敗：', err);
-    elPlaceholder.textContent = '⚠ 資料載入失敗，請確認 database 目錄下之 seismic.json、near_fault.json、amplification.json、MCE.json 與 importance.json 是否存在。';
+    elPlaceholder.textContent = '⚠ 資料載入失敗，請確認 database 目錄下之 seismic.json、near_fault.json、amplification.json、MCE.json、importance.json 與 ductility.json 是否存在。';
   }
 }
 
@@ -443,8 +487,8 @@ function resetFrom(level) {
 
 function show(el) {
   // near-row is a flex container; site-design-grid/b-site-grid are grid containers; zone-row and result are block
-  if (el.id === 'near-row' || el.id === 'c-items-list') el.style.display = 'flex';
-  else if (el.id === 'site-design-grid' || el.id === 'b-site-grid') el.style.display = 'grid';
+  if (el.id === 'near-row' || el.id === 'c-items-list' || el.id === 'd-items-list') el.style.display = 'flex';
+  else if (el.id === 'site-design-grid' || el.id === 'b-site-grid' || el.id === 'd-alpha-y-grid' || el.id === 'd-ra-grid') el.style.display = 'grid';
   else el.style.display = 'block';
 }
 function hide(el) { el.style.display = 'none'; }
@@ -456,6 +500,7 @@ function selectPanel(panelId) {
   elNavItems.forEach(btn => btn.classList.toggle('is-active', btn.dataset.panel === panelId));
   elContentPanels.forEach(sec => sec.classList.toggle('is-active', sec.id === panelId));
   if (panelId === 'panel-b') refreshPanelB();
+  if (panelId === 'panel-d') refreshPanelD();
 }
 
 /* ════════════════════════════
@@ -516,6 +561,8 @@ function onBCalc() {
 
   const t0d = siteCoeffs.sd1 / siteCoeffs.sds;
   const t0m = siteCoeffs.sm1 / siteCoeffs.sms;
+
+  bPeriodResult = { T, t0d };
 
   document.getElementById('b-val-sad-02t0d').textContent = (0.2 * t0d).toFixed(4) + ' 秒';
   document.getElementById('b-val-sad-t0d').textContent    = t0d.toFixed(4) + ' 秒';
@@ -654,4 +701,195 @@ function onImportanceConfirm() {
 
   elCPlaceholder.style.display = 'none';
   show(elCResult);
+}
+
+/* ════════════════════════════
+   D 區：結構系統韌性容量與地震力折減係數（表 1-3、2.9 節）
+   ════════════════════════════ */
+
+/* 起始降伏地震力放大倍數 αy 選擇（僅供對照 2.9 節說明，不參與 Fu 計算） */
+function selectYieldMethod(alphaY) {
+  selectedAlphaY = alphaY;
+
+  const map = { 1.2: 'yield-asd', 1.0: 'yield-lrfd', 1.5: 'yield-rc' };
+  ['yield-asd', 'yield-lrfd', 'yield-rc'].forEach(id => {
+    document.getElementById('btn-' + id).classList.toggle('is-selected', map[alphaY] === id);
+    document.getElementById(id).checked = (map[alphaY] === id);
+  });
+
+  elDValAlphaY.textContent = alphaY.toFixed(1);
+  show(elDAlphaYGrid);
+}
+
+/* 結構系統韌性容量 R 值查詢（依表 1-3） */
+function populateDuctilityCategories() {
+  elDCategories.innerHTML = '';
+  ductilityData.categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'category-btn';
+    btn.dataset.categoryId = cat.id;
+    btn.innerHTML = `
+      <span class="category-btn__body">
+        <span class="category-btn__title">${cat.label}</span>
+      </span>`;
+    btn.addEventListener('click', () => selectDuctilityCategory(cat.id));
+    elDCategories.appendChild(btn);
+  });
+}
+
+function selectDuctilityCategory(id) {
+  selectedDCategoryId = id;
+  selectedDItemId = '';
+
+  elDCategories.querySelectorAll('.category-btn').forEach(btn => {
+    btn.classList.toggle('is-selected', btn.dataset.categoryId === id);
+  });
+
+  const cat = ductilityData.categories.find(c => c.id === id);
+
+  elDItemsList.innerHTML = '';
+  cat.items.forEach(item => {
+    const opt = document.createElement('button');
+    opt.type = 'button';
+    opt.className = 'item-option';
+    opt.dataset.itemId = item.id;
+    opt.textContent = `${item.label}　R = ${item.r}`;
+    opt.addEventListener('click', () => selectDuctilityItem(item.id));
+    elDItemsList.appendChild(opt);
+  });
+
+  hide(elDItemsPlaceholder);
+  show(elDItemsList);
+
+  elDConfirmBtn.disabled = true;
+  hide(elDRResult);
+  hide(elDRaBox);
+  hide(elDRaGrid);
+  hide(elDFuBox);
+}
+
+function selectDuctilityItem(itemId) {
+  selectedDItemId = itemId;
+  elDItemsList.querySelectorAll('.item-option').forEach(opt => {
+    opt.classList.toggle('is-selected', opt.dataset.itemId === itemId);
+  });
+  elDConfirmBtn.disabled = false;
+}
+
+function onDuctilityConfirm() {
+  if (!selectedDCategoryId || !selectedDItemId) { alert('請先選擇基本結構系統與所屬細項'); return; }
+
+  const cat  = ductilityData.categories.find(c => c.id === selectedDCategoryId);
+  const item = cat.items.find(i => i.id === selectedDItemId);
+
+  selectedR           = item.r;
+  selectedHeightLimit = item.height_limit;
+
+  document.getElementById('d-result-category').textContent = cat.label;
+  document.getElementById('d-result-item').textContent     = item.label;
+  document.getElementById('d-val-r').textContent            = item.r.toFixed(1);
+  document.getElementById('d-val-height').textContent       = item.height_limit;
+  show(elDRResult);
+
+  /* R 值變更，重設下游之 Ra／Fu 計算 */
+  selectedSiteType = '';
+  raValue = null;
+  document.getElementById('d-site-general').checked = false;
+  document.getElementById('d-site-taipei').checked  = false;
+  document.getElementById('btn-site-general').classList.remove('is-selected');
+  document.getElementById('btn-site-taipei').classList.remove('is-selected');
+  hide(elDRaGrid);
+  hide(elDFuBox);
+
+  show(elDRaBox);
+}
+
+/* 結構系統容許韌性容量 Ra 計算（(2-10)／(2-11) 式） */
+function selectSiteType(type) {
+  if (selectedR === null) { alert('請先查詢結構系統韌性容量 R 值'); return; }
+  selectedSiteType = type;
+
+  document.getElementById('btn-site-general').classList.toggle('is-selected', type === 'general');
+  document.getElementById('btn-site-taipei').classList.toggle('is-selected',  type === 'taipei');
+  document.getElementById('d-site-general').checked = (type === 'general');
+  document.getElementById('d-site-taipei').checked  = (type === 'taipei');
+
+  const divisor = type === 'general' ? 1.5 : 2.0;
+  const eq      = type === 'general' ? '(2-10)' : '(2-11)';
+  raValue = 1 + (selectedR - 1) / divisor;
+
+  document.getElementById('d-val-ra').textContent = raValue.toFixed(4);
+  document.getElementById('d-ra-formula').innerHTML =
+    `R<sub>a</sub> = 1 + (R－1) / ${divisor.toFixed(1)} = 1 + (${selectedR.toFixed(1)}－1) / ${divisor.toFixed(1)} = ${raValue.toFixed(4)}　${eq}`;
+  show(elDRaGrid);
+
+  refreshFuResult();
+}
+
+/* 切入 D 區時，重新整理 Fu 計算結果（若已選定 Ra） */
+function refreshPanelD() {
+  if (raValue !== null) refreshFuResult();
+}
+
+/* 結構系統地震力折減係數 Fu 計算（依 (2-12) 式，取用 B 區之 T、T0D） */
+function refreshFuResult() {
+  show(elDFuBox);
+
+  if (!bPeriodResult) {
+    show(elDFuNoData);
+    hide(elDFuContent);
+    return;
+  }
+  hide(elDFuNoData);
+  show(elDFuContent);
+
+  const { T, t0d } = bPeriodResult;
+  const t06 = 0.6 * t0d;
+  const t02 = 0.2 * t0d;
+
+  document.getElementById('d-val-t').textContent    = T.toFixed(4)   + ' 秒';
+  document.getElementById('d-val-t0d').textContent   = t0d.toFixed(4) + ' 秒';
+  document.getElementById('d-val-06t0d').textContent = t06.toFixed(4) + ' 秒';
+  document.getElementById('d-val-02t0d').textContent = t02.toFixed(4) + ' 秒';
+
+  const fu = calcFu(T, t0d, raValue);
+  document.getElementById('d-val-fu').textContent = fu.value.toFixed(4);
+  document.getElementById('d-fu-range').textContent = fu.label;
+  document.getElementById('d-fu-formula').innerHTML = fu.formula;
+}
+
+/* 依 (2-12) 式之四段規則，求結構系統地震力折減係數 Fu */
+function calcFu(T, t0d, Ra) {
+  const sq = Math.sqrt(2 * Ra - 1);
+  const t0sup = 'T<sub>0</sub><sup>D</sup>';
+
+  if (T >= t0d) {
+    return {
+      label: 'T ≥ T0D',
+      value: Ra,
+      formula: `F<sub>u</sub> = R<sub>a</sub> = ${Ra.toFixed(4)}　(2-12)`
+    };
+  }
+  if (T >= 0.6 * t0d) {
+    const value = sq + (Ra - sq) * (T - 0.6 * t0d) / (0.4 * t0d);
+    return {
+      label: '0.6T0D ≤ T ≤ T0D',
+      value,
+      formula: `F<sub>u</sub> = √(2R<sub>a</sub>－1) + (R<sub>a</sub>－√(2R<sub>a</sub>－1)) × (T－0.6${t0sup}) / (0.4${t0sup}) = ${value.toFixed(4)}　(2-12)`
+    };
+  }
+  if (T >= 0.2 * t0d) {
+    return {
+      label: '0.2T0D ≤ T ≤ 0.6T0D',
+      value: sq,
+      formula: `F<sub>u</sub> = √(2R<sub>a</sub>－1) = ${sq.toFixed(4)}　(2-12)`
+    };
+  }
+  const value = sq + (sq - 1) * (T - 0.2 * t0d) / (0.2 * t0d);
+  return {
+    label: 'T ≤ 0.2T0D',
+    value,
+    formula: `F<sub>u</sub> = √(2R<sub>a</sub>－1) + (√(2R<sub>a</sub>－1)－1) × (T－0.2${t0sup}) / (0.2${t0sup}) = ${value.toFixed(4)}　(2-12)`
+  };
 }
