@@ -26,7 +26,8 @@ let selectedItemId     = '';
 /* ── D 區狀態變數 ── */
 let selectedAlphaY       = null;
 let selectedDCategoryId  = '';
-let selectedDItemId      = '';
+let selectedDGroupId     = '';
+let selectedLeaf         = null; // 已選定葉節點 { label, r, height_limit }
 let selectedR            = null;
 let selectedHeightLimit  = '';
 let selectedSiteType     = '';
@@ -47,7 +48,8 @@ let elCCategories, elCItemsPlaceholder, elCItemsList, elCNote,
     elCConfirmBtn, elCResult, elCPlaceholder;
 
 /* ── D 區 DOM refs ── */
-let elDAlphaYGrid, elDValAlphaY, elDCategories, elDItemsPlaceholder, elDItemsList,
+let elDAlphaYGrid, elDValAlphaY, elDCategories, elDItemsPlaceholder, elDCategoryNote,
+    elDGroupsList, elDItemsList,
     elDConfirmBtn, elDRResult, elDRaBox, elDRaGrid, elDFuBox, elDFuNoData, elDFuContent;
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -60,17 +62,19 @@ document.addEventListener('DOMContentLoaded', async () => {
    ════════════════════════════ */
 async function loadSections() {
   try {
-    const [aRes, bRes, cRes, dRes] = await Promise.all([
+    const [aRes, bRes, cRes, dRes, eRes] = await Promise.all([
       fetch('sections/sec-a.html'),
       fetch('sections/sec-b.html'),
       fetch('sections/sec-c.html'),
-      fetch('sections/sec-d.html')
+      fetch('sections/sec-d.html'),
+      fetch('sections/sec-e.html')
     ]);
-    if (!aRes.ok || !bRes.ok || !cRes.ok || !dRes.ok) throw new Error(`HTTP ${aRes.status}/${bRes.status}/${cRes.status}/${dRes.status}`);
+    if (!aRes.ok || !bRes.ok || !cRes.ok || !dRes.ok || !eRes.ok) throw new Error(`HTTP ${aRes.status}/${bRes.status}/${cRes.status}/${dRes.status}/${eRes.status}`);
     document.getElementById('panel-a').innerHTML = await aRes.text();
     document.getElementById('panel-b').innerHTML = await bRes.text();
     document.getElementById('panel-c').innerHTML = await cRes.text();
     document.getElementById('panel-d').innerHTML = await dRes.text();
+    document.getElementById('panel-e').innerHTML = await eRes.text();
   } catch (err) {
     console.error('區塊載入失敗：', err);
     document.querySelector('.app-content').innerHTML =
@@ -117,6 +121,8 @@ function initApp() {
   elDValAlphaY        = document.getElementById('d-val-alpha-y');
   elDCategories       = document.getElementById('d-categories');
   elDItemsPlaceholder = document.getElementById('d-items-placeholder');
+  elDCategoryNote     = document.getElementById('d-category-note');
+  elDGroupsList       = document.getElementById('d-groups-list');
   elDItemsList        = document.getElementById('d-items-list');
   elDConfirmBtn       = document.getElementById('d-confirm-btn');
   elDRResult          = document.getElementById('d-r-result');
@@ -487,7 +493,7 @@ function resetFrom(level) {
 
 function show(el) {
   // near-row is a flex container; site-design-grid/b-site-grid are grid containers; zone-row and result are block
-  if (el.id === 'near-row' || el.id === 'c-items-list' || el.id === 'd-items-list') el.style.display = 'flex';
+  if (el.id === 'near-row' || el.id === 'c-items-list' || el.id === 'd-items-list' || el.id === 'd-groups-list') el.style.display = 'flex';
   else if (el.id === 'site-design-grid' || el.id === 'b-site-grid' || el.id === 'd-alpha-y-grid' || el.id === 'd-ra-grid') el.style.display = 'grid';
   else el.style.display = 'block';
 }
@@ -721,7 +727,7 @@ function selectYieldMethod(alphaY) {
   show(elDAlphaYGrid);
 }
 
-/* 結構系統韌性容量 R 值查詢（依表 1-3） */
+/* 結構系統韌性容量 R 值查詢（依表 1-3，分類定義依 1.7 節） */
 function populateDuctilityCategories() {
   elDCategories.innerHTML = '';
   ductilityData.categories.forEach(cat => {
@@ -738,9 +744,11 @@ function populateDuctilityCategories() {
   });
 }
 
+/* 選擇基本結構系統：顯示分類定義，並列出該分類下「1./2./3.」階層選項 */
 function selectDuctilityCategory(id) {
   selectedDCategoryId = id;
-  selectedDItemId = '';
+  selectedDGroupId = '';
+  selectedLeaf = null;
 
   elDCategories.querySelectorAll('.category-btn').forEach(btn => {
     btn.classList.toggle('is-selected', btn.dataset.categoryId === id);
@@ -748,19 +756,26 @@ function selectDuctilityCategory(id) {
 
   const cat = ductilityData.categories.find(c => c.id === id);
 
-  elDItemsList.innerHTML = '';
-  cat.items.forEach(item => {
+  elDCategoryNote.textContent = cat.definition;
+  show(elDCategoryNote);
+
+  elDGroupsList.innerHTML = '';
+  cat.groups.forEach(group => {
     const opt = document.createElement('button');
     opt.type = 'button';
     opt.className = 'item-option';
-    opt.dataset.itemId = item.id;
-    opt.textContent = `${item.label}　R = ${item.r}`;
-    opt.addEventListener('click', () => selectDuctilityItem(item.id));
-    elDItemsList.appendChild(opt);
+    opt.dataset.groupId = group.id;
+    opt.textContent = group.items
+      ? group.label
+      : `${group.label}　R = ${group.r}　高度限制 ${group.height_limit} m`;
+    opt.addEventListener('click', () => selectDuctilityGroup(group.id));
+    elDGroupsList.appendChild(opt);
   });
 
   hide(elDItemsPlaceholder);
-  show(elDItemsList);
+  show(elDGroupsList);
+  elDItemsList.innerHTML = '';
+  hide(elDItemsList);
 
   elDConfirmBtn.disabled = true;
   hide(elDRResult);
@@ -769,27 +784,66 @@ function selectDuctilityCategory(id) {
   hide(elDFuBox);
 }
 
+/* 選擇「1./2./3.」階層：若無 (1)(2)(3) 子項，直接視為葉節點；否則列出子項 */
+function selectDuctilityGroup(groupId) {
+  selectedDGroupId = groupId;
+  selectedLeaf = null;
+  elDConfirmBtn.disabled = true;
+
+  elDGroupsList.querySelectorAll('.item-option').forEach(opt => {
+    opt.classList.toggle('is-selected', opt.dataset.groupId === groupId);
+  });
+
+  const cat   = ductilityData.categories.find(c => c.id === selectedDCategoryId);
+  const group = cat.groups.find(g => g.id === groupId);
+
+  if (!group.items) {
+    hide(elDItemsList);
+    elDItemsList.innerHTML = '';
+    selectedLeaf = { label: group.label, r: group.r, height_limit: group.height_limit };
+    elDConfirmBtn.disabled = false;
+    return;
+  }
+
+  elDItemsList.innerHTML = '';
+  group.items.forEach(item => {
+    const opt = document.createElement('button');
+    opt.type = 'button';
+    opt.className = 'item-option';
+    opt.dataset.itemId = item.id;
+    opt.textContent = `${item.label}　R = ${item.r}　高度限制 ${item.height_limit} m`;
+    opt.addEventListener('click', () => selectDuctilityItem(item.id));
+    elDItemsList.appendChild(opt);
+  });
+  show(elDItemsList);
+}
+
+/* 選擇「(1)(2)(3)…」階層子項 */
 function selectDuctilityItem(itemId) {
-  selectedDItemId = itemId;
+  const cat   = ductilityData.categories.find(c => c.id === selectedDCategoryId);
+  const group = cat.groups.find(g => g.id === selectedDGroupId);
+  const item  = group.items.find(i => i.id === itemId);
+
   elDItemsList.querySelectorAll('.item-option').forEach(opt => {
     opt.classList.toggle('is-selected', opt.dataset.itemId === itemId);
   });
+
+  selectedLeaf = { label: group.label + item.label, r: item.r, height_limit: item.height_limit };
   elDConfirmBtn.disabled = false;
 }
 
 function onDuctilityConfirm() {
-  if (!selectedDCategoryId || !selectedDItemId) { alert('請先選擇基本結構系統與所屬細項'); return; }
+  if (!selectedLeaf) { alert('請先選擇基本結構系統之細項'); return; }
 
-  const cat  = ductilityData.categories.find(c => c.id === selectedDCategoryId);
-  const item = cat.items.find(i => i.id === selectedDItemId);
+  const cat = ductilityData.categories.find(c => c.id === selectedDCategoryId);
 
-  selectedR           = item.r;
-  selectedHeightLimit = item.height_limit;
+  selectedR           = selectedLeaf.r;
+  selectedHeightLimit = selectedLeaf.height_limit;
 
   document.getElementById('d-result-category').textContent = cat.label;
-  document.getElementById('d-result-item').textContent     = item.label;
-  document.getElementById('d-val-r').textContent            = item.r.toFixed(1);
-  document.getElementById('d-val-height').textContent       = item.height_limit;
+  document.getElementById('d-result-item').textContent     = selectedLeaf.label;
+  document.getElementById('d-val-r').textContent            = selectedLeaf.r.toFixed(1);
+  document.getElementById('d-val-height').textContent       = selectedLeaf.height_limit;
   show(elDRResult);
 
   /* R 值變更，重設下游之 Ra／Fu 計算 */
@@ -859,37 +913,63 @@ function refreshFuResult() {
   document.getElementById('d-fu-formula').innerHTML = fu.formula;
 }
 
-/* 依 (2-12) 式之四段規則，求結構系統地震力折減係數 Fu */
+/* 依 (2-12) 式之四段規則，求結構系統地震力折減係數 Fu（列出符號式、數值代入式與計算過程） */
 function calcFu(T, t0d, Ra) {
-  const sq = Math.sqrt(2 * Ra - 1);
+  const sq    = Math.sqrt(2 * Ra - 1);
   const t0sup = 'T<sub>0</sub><sup>D</sup>';
+  const symFu = 'F<sub>u</sub>';
+  const symRa = 'R<sub>a</sub>';
+  const symSq = `√(2${symRa}－1)`;
+  const RaS   = Ra.toFixed(4);
+  const t0dS  = t0d.toFixed(4);
+  const TS    = T.toFixed(4);
+  const sqS   = sq.toFixed(4);
 
   if (T >= t0d) {
     return {
       label: 'T ≥ T0D',
       value: Ra,
-      formula: `F<sub>u</sub> = R<sub>a</sub> = ${Ra.toFixed(4)}　(2-12)`
+      formula:
+        `${symFu} = ${symRa}<br>` +
+        `　= ${RaS}　(2-12)`
     };
   }
   if (T >= 0.6 * t0d) {
-    const value = sq + (Ra - sq) * (T - 0.6 * t0d) / (0.4 * t0d);
+    const raMinusSq = Ra - sq;
+    const tMinus06  = T - 0.6 * t0d;
+    const denom04   = 0.4 * t0d;
+    const value     = sq + raMinusSq * tMinus06 / denom04;
     return {
       label: '0.6T0D ≤ T ≤ T0D',
       value,
-      formula: `F<sub>u</sub> = √(2R<sub>a</sub>－1) + (R<sub>a</sub>－√(2R<sub>a</sub>－1)) × (T－0.6${t0sup}) / (0.4${t0sup}) = ${value.toFixed(4)}　(2-12)`
+      formula:
+        `${symFu} = ${symSq} + (${symRa}－${symSq}) × (T－0.6${t0sup}) / (0.4${t0sup})<br>` +
+        `　= √(2×${RaS}－1) + (${RaS}－${sqS}) × (${TS}－0.6×${t0dS}) / (0.4×${t0dS})<br>` +
+        `　= ${sqS} + (${raMinusSq.toFixed(4)}) × (${tMinus06.toFixed(4)}) / (${denom04.toFixed(4)})<br>` +
+        `　= ${value.toFixed(4)}　(2-12)`
     };
   }
   if (T >= 0.2 * t0d) {
     return {
       label: '0.2T0D ≤ T ≤ 0.6T0D',
       value: sq,
-      formula: `F<sub>u</sub> = √(2R<sub>a</sub>－1) = ${sq.toFixed(4)}　(2-12)`
+      formula:
+        `${symFu} = ${symSq}<br>` +
+        `　= √(2×${RaS}－1)<br>` +
+        `　= ${sqS}　(2-12)`
     };
   }
-  const value = sq + (sq - 1) * (T - 0.2 * t0d) / (0.2 * t0d);
+  const sqMinus1 = sq - 1;
+  const tMinus02 = T - 0.2 * t0d;
+  const denom02  = 0.2 * t0d;
+  const value    = sq + sqMinus1 * tMinus02 / denom02;
   return {
     label: 'T ≤ 0.2T0D',
     value,
-    formula: `F<sub>u</sub> = √(2R<sub>a</sub>－1) + (√(2R<sub>a</sub>－1)－1) × (T－0.2${t0sup}) / (0.2${t0sup}) = ${value.toFixed(4)}　(2-12)`
+    formula:
+      `${symFu} = ${symSq} + (${symSq}－1) × (T－0.2${t0sup}) / (0.2${t0sup})<br>` +
+      `　= √(2×${RaS}－1) + (√(2×${RaS}－1)－1) × (${TS}－0.2×${t0dS}) / (0.2×${t0dS})<br>` +
+      `　= ${sqS} + (${sqMinus1.toFixed(4)}) × (${tMinus02.toFixed(4)}) / (${denom02.toFixed(4)})<br>` +
+      `　= ${value.toFixed(4)}　(2-12)`
   };
 }
