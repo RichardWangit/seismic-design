@@ -1,0 +1,162 @@
+  <main class="scroll">
+    <div class="scroll__inner">
+
+      <!-- ══ 起始降伏地震力放大倍數 αy（依 2.9 節說明） ══ -->
+      <section class="query-box" aria-label="起始降伏地震力放大倍數">
+        <span class="query-box__label">◈ 起始降伏地震力放大倍數 αy 選擇（依 2.9 節說明） ◈</span>
+
+        <div class="zone-toggle">
+          <label id="btn-yield-asd" class="zone-btn zone-btn--general">
+            <input type="radio" name="yield-method" value="1.2" id="yield-asd">
+            <span class="zone-btn__icon">甲</span>
+            <span class="zone-btn__text">
+              鋼結構－容許應力設計法
+              <small>αy = 1.2</small>
+            </span>
+          </label>
+          <label id="btn-yield-lrfd" class="zone-btn zone-btn--near">
+            <input type="radio" name="yield-method" value="1.0" id="yield-lrfd">
+            <span class="zone-btn__icon">乙</span>
+            <span class="zone-btn__text">
+              鋼構造／鋼骨鋼筋混凝土構造－極限設計法
+              <small>αy = 1.0</small>
+            </span>
+          </label>
+          <label id="btn-yield-rc" class="zone-btn zone-btn--bamboo">
+            <input type="radio" name="yield-method" value="1.5" id="yield-rc">
+            <span class="zone-btn__icon">丙</span>
+            <span class="zone-btn__text">
+              鋼筋混凝土構造－極限強度設計法
+              <small>αy = 1.5</small>
+            </span>
+          </label>
+        </div>
+
+        <div class="coeff-grid coeff-grid--single" id="d-alpha-y-grid" style="display:none;">
+          <div class="coeff-cell">
+            <div class="coeff-cell__desc">起始降伏地震力放大倍數</div>
+            <div class="coeff-cell__symbol">α<sub>y</sub></div>
+            <div class="coeff-cell__value" id="d-val-alpha-y">—</div>
+            <div class="coeff-cell__note">僅供對照 2.9 節說明，不參與 (2-12) 式 Fu 計算</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 結構系統韌性容量 R 值查詢（依表 1-3） ══ -->
+      <section class="query-box" aria-label="結構系統韌性容量選擇">
+        <span class="query-box__label">◈ 結構系統韌性容量 R 值查詢（依表 1-3） ◈</span>
+
+        <div class="importance-layout">
+          <div class="importance-categories" id="d-categories"></div>
+
+          <div class="importance-items">
+            <p class="placeholder placeholder--inline" id="d-items-placeholder">請先於左側選擇基本結構系統</p>
+            <div id="d-items-list" class="importance-items__list" style="display:none;"></div>
+          </div>
+        </div>
+
+        <div class="query-box__row query-box__row--btn">
+          <button class="btn-query" id="d-confirm-btn" type="button" disabled>確　定</button>
+        </div>
+      </section>
+
+      <!-- ══ 結果：R 值 ══ -->
+      <section id="d-r-result" class="result" style="display:none;" aria-live="polite">
+        <div class="result__heading">
+          <span class="result__district" id="d-result-category"></span>
+        </div>
+        <div class="importance-note importance-note--selected" id="d-result-item"></div>
+        <div class="coeff-grid coeff-grid--single">
+          <div class="coeff-cell">
+            <div class="coeff-cell__desc">結構系統韌性容量　高度限制：<span id="d-val-height">—</span> m</div>
+            <div class="coeff-cell__symbol">R</div>
+            <div class="coeff-cell__value" id="d-val-r">—</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 結構系統容許韌性容量 Ra 計算 ══ -->
+      <section class="query-box" id="d-ra-box" aria-label="容許韌性容量計算" style="display:none;">
+        <span class="query-box__label">◈ 結構系統容許韌性容量 Ra 計算 ◈</span>
+
+        <div class="zone-toggle">
+          <label id="btn-site-general" class="zone-btn zone-btn--general">
+            <input type="radio" name="d-site-type" value="general" id="d-site-general">
+            <span class="zone-btn__icon">◎</span>
+            <span class="zone-btn__text">
+              一般工址與近斷層工址
+              <small>Ra = 1 + (R－1) / 1.5　(2-10)</small>
+            </span>
+          </label>
+          <label id="btn-site-taipei" class="zone-btn zone-btn--near">
+            <input type="radio" name="d-site-type" value="taipei" id="d-site-taipei">
+            <span class="zone-btn__icon">⚡</span>
+            <span class="zone-btn__text">
+              臺北盆地
+              <small>Ra = 1 + (R－1) / 2.0　(2-11)</small>
+            </span>
+          </label>
+        </div>
+
+        <div class="coeff-grid coeff-grid--single" id="d-ra-grid" style="display:none;">
+          <div class="coeff-cell">
+            <div class="coeff-cell__desc">結構系統容許韌性容量</div>
+            <div class="coeff-cell__symbol">R<sub>a</sub></div>
+            <div class="coeff-cell__value" id="d-val-ra">—</div>
+            <div class="coeff-cell__formula" id="d-ra-formula">—</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 結果：結構系統地震力折減係數 Fu（依 (2-12) 式） ══ -->
+      <section id="d-fu-box" class="result" style="display:none;" aria-live="polite">
+
+        <p class="placeholder" id="d-fu-no-data" style="padding:1rem 0;">請先於「B．工址設計與最大考量水平譜加速度係數」完成建築物基本振動週期計算。</p>
+
+        <div id="d-fu-content" style="display:none;">
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 取自 B 區之基本振動週期與 (2-12) 式分段點</div>
+            <div class="coeff-grid">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">建築物基本振動週期（取自 B 區）</div>
+                <div class="coeff-cell__symbol">T</div>
+                <div class="coeff-cell__value" id="d-val-t">—</div>
+              </div>
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">短、中長週期分界（取自 B 區）</div>
+                <div class="coeff-cell__symbol">T<sub>0</sub><sup>D</sup></div>
+                <div class="coeff-cell__value" id="d-val-t0d">—</div>
+              </div>
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">(2-12) 式分段點</div>
+                <div class="coeff-cell__symbol">0.6T<sub>0</sub><sup>D</sup></div>
+                <div class="coeff-cell__value" id="d-val-06t0d">—</div>
+              </div>
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">(2-12) 式分段點</div>
+                <div class="coeff-cell__symbol">0.2T<sub>0</sub><sup>D</sup></div>
+                <div class="coeff-cell__value" id="d-val-02t0d">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 結構系統地震力折減係數（依 (2-12) 式）</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">結構系統地震力折減係數</div>
+                <div class="coeff-cell__symbol">F<sub>u</sub></div>
+                <div class="coeff-cell__value" id="d-val-fu">—</div>
+                <div class="coeff-cell__note" id="d-fu-range">—</div>
+                <div class="coeff-cell__formula" id="d-fu-formula">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <div class="ornament" aria-hidden="true">⊸ · · · ⊷</div>
+
+    </div>
+  </main>
