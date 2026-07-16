@@ -9,12 +9,17 @@ let seismicData       = [];
 let nearFaultData     = null;
 let amplificationData = null;
 let mceData           = null;
+let importanceData    = null;
 const DIST_NODES  = [1, 3, 5, 7, 9, 11, 13, 14];
 
 /* ── 狀態變數（不依賴 DOM radio.checked） ── */
 let selectedZone  = '';   // 'general' | 'near' | ''
 let lastCoeffs    = null; // 最近一次查覽結果 { dss, ds1, mss, ms1 }，供地盤放大計算使用
 let siteCoeffs    = null; // 工址放大後係數 { sds, sd1, sms, sm1, faDss, fvDs1, faMss, fvMs1 }，供未來 B/C 區塊取用
+
+/* ── C 區狀態變數 ── */
+let selectedCategoryId = '';
+let selectedItemId     = '';
 
 /* ── DOM refs ── */
 let elCounty, elDistrict, elZoneRow, elBtnGeneral, elBtnNear,
@@ -26,6 +31,10 @@ let elCounty, elDistrict, elZoneRow, elBtnGeneral, elBtnNear,
 let elBNoData, elBSiteGrid, elBT0Row, elBPeriodBox, elBBuildingType,
     elBHeightInput, elBCalcBtn, elBResult;
 
+/* ── C 區 DOM refs ── */
+let elCCategories, elCItemsPlaceholder, elCItemsList, elCNote,
+    elCConfirmBtn, elCResult, elCPlaceholder;
+
 document.addEventListener('DOMContentLoaded', async () => {
   await loadSections();
   initApp();
@@ -36,13 +45,15 @@ document.addEventListener('DOMContentLoaded', async () => {
    ════════════════════════════ */
 async function loadSections() {
   try {
-    const [aRes, bRes] = await Promise.all([
+    const [aRes, bRes, cRes] = await Promise.all([
       fetch('sections/sec-a.html'),
-      fetch('sections/sec-b.html')
+      fetch('sections/sec-b.html'),
+      fetch('sections/sec-c.html')
     ]);
-    if (!aRes.ok || !bRes.ok) throw new Error(`HTTP ${aRes.status}/${bRes.status}`);
+    if (!aRes.ok || !bRes.ok || !cRes.ok) throw new Error(`HTTP ${aRes.status}/${bRes.status}/${cRes.status}`);
     document.getElementById('panel-a').innerHTML = await aRes.text();
     document.getElementById('panel-b').innerHTML = await bRes.text();
+    document.getElementById('panel-c').innerHTML = await cRes.text();
   } catch (err) {
     console.error('區塊載入失敗：', err);
     document.querySelector('.app-content').innerHTML =
@@ -77,6 +88,14 @@ function initApp() {
   elBCalcBtn       = document.getElementById('b-calc-btn');
   elBResult        = document.getElementById('b-result');
 
+  elCCategories       = document.getElementById('c-categories');
+  elCItemsPlaceholder = document.getElementById('c-items-placeholder');
+  elCItemsList        = document.getElementById('c-items-list');
+  elCNote             = document.getElementById('c-note');
+  elCConfirmBtn       = document.getElementById('c-confirm-btn');
+  elCResult           = document.getElementById('c-result');
+  elCPlaceholder      = document.getElementById('c-placeholder');
+
   /* 初始全隱藏 */
   hide(elZoneRow);
   hide(elNearRow);
@@ -86,6 +105,7 @@ function initApp() {
   hide(elBT0Row);
   hide(elBPeriodBox);
   hide(elBResult);
+  hide(elCResult);
 
   /* 事件綁定 */
   elCounty.addEventListener('change', onCountyChange);
@@ -95,6 +115,7 @@ function initApp() {
   elQueryBtn.addEventListener('click', onQuery);
   elSoilBtn.addEventListener('click', onSoilCalc);
   elBCalcBtn.addEventListener('click', onBCalc);
+  elCConfirmBtn.addEventListener('click', onImportanceConfirm);
   elNavItems.forEach(btn => btn.addEventListener('click', () => selectPanel(btn.dataset.panel)));
 
   loadData();
@@ -105,23 +126,26 @@ function initApp() {
    ════════════════════════════ */
 async function loadData() {
   try {
-    const [r1, r2, r3, r4] = await Promise.all([
+    const [r1, r2, r3, r4, r5] = await Promise.all([
       fetch('database/seismic.json'),
       fetch('database/near_fault.json'),
       fetch('database/amplification.json'),
-      fetch('database/MCE.json')
+      fetch('database/MCE.json'),
+      fetch('database/importance.json')
     ]);
-    if (!r1.ok || !r2.ok || !r3.ok || !r4.ok) throw new Error(`HTTP ${r1.status}/${r2.status}/${r3.status}/${r4.status}`);
+    if (!r1.ok || !r2.ok || !r3.ok || !r4.ok || !r5.ok) throw new Error(`HTTP ${r1.status}/${r2.status}/${r3.status}/${r4.status}/${r5.status}`);
     seismicData       = await r1.json();
     nearFaultData     = await r2.json();
     amplificationData = await r3.json();
     mceData           = await r4.json();
+    importanceData    = await r5.json();
     populateCounties();
     populateSoilClasses();
     populateBuildingTypes();
+    populateImportanceCategories();
   } catch (err) {
     console.error('資料載入失敗：', err);
-    elPlaceholder.textContent = '⚠ 資料載入失敗，請確認 database 目錄下之 seismic.json、near_fault.json、amplification.json 與 MCE.json 是否存在。';
+    elPlaceholder.textContent = '⚠ 資料載入失敗，請確認 database 目錄下之 seismic.json、near_fault.json、amplification.json、MCE.json 與 importance.json 是否存在。';
   }
 }
 
@@ -419,7 +443,7 @@ function resetFrom(level) {
 
 function show(el) {
   // near-row is a flex container; site-design-grid/b-site-grid are grid containers; zone-row and result are block
-  if (el.id === 'near-row') el.style.display = 'flex';
+  if (el.id === 'near-row' || el.id === 'c-items-list') el.style.display = 'flex';
   else if (el.id === 'site-design-grid' || el.id === 'b-site-grid') el.style.display = 'grid';
   else el.style.display = 'block';
 }
@@ -551,4 +575,83 @@ function calcSpectralAccel(T, t0, Ss, S1, kind) {
     value,
     formula: `S${subA} = 0.4 × S${sub} = 0.4 × ${Ss.toFixed(2)} = ${value.toFixed(4)}`
   };
+}
+
+/* ════════════════════════════
+   C 區：建築物用途係數查詢（2.8 節）
+   ════════════════════════════ */
+
+function populateImportanceCategories() {
+  elCCategories.innerHTML = '';
+  importanceData.categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'category-btn';
+    btn.dataset.categoryId = cat.id;
+    btn.innerHTML = `
+      <span class="category-btn__body">
+        <span class="category-btn__title">${cat.label}</span>
+        <span class="category-btn__factor">I = ${cat.factor}</span>
+      </span>`;
+    btn.addEventListener('click', () => selectImportanceCategory(cat.id));
+    elCCategories.appendChild(btn);
+  });
+}
+
+function selectImportanceCategory(id) {
+  selectedCategoryId = id;
+  selectedItemId = '';
+
+  elCCategories.querySelectorAll('.category-btn').forEach(btn => {
+    btn.classList.toggle('is-selected', btn.dataset.categoryId === id);
+  });
+
+  const cat = importanceData.categories.find(c => c.id === id);
+
+  elCItemsList.innerHTML = '';
+  cat.items.forEach(item => {
+    const opt = document.createElement('button');
+    opt.type = 'button';
+    opt.className = 'item-option';
+    opt.dataset.itemId = item.id;
+    opt.textContent = item.label;
+    opt.addEventListener('click', () => selectImportanceItem(item.id));
+    elCItemsList.appendChild(opt);
+  });
+
+  hide(elCItemsPlaceholder);
+  show(elCItemsList);
+
+  if (cat.note) {
+    elCNote.textContent = cat.note;
+    show(elCNote);
+  } else {
+    hide(elCNote);
+  }
+
+  elCConfirmBtn.disabled = true;
+  hide(elCResult);
+  elCPlaceholder.style.display = 'block';
+}
+
+function selectImportanceItem(itemId) {
+  selectedItemId = itemId;
+  elCItemsList.querySelectorAll('.item-option').forEach(opt => {
+    opt.classList.toggle('is-selected', opt.dataset.itemId === itemId);
+  });
+  elCConfirmBtn.disabled = false;
+}
+
+function onImportanceConfirm() {
+  if (!selectedCategoryId || !selectedItemId) { alert('請先選擇建築物類別與所屬細項用途'); return; }
+
+  const cat  = importanceData.categories.find(c => c.id === selectedCategoryId);
+  const item = cat.items.find(i => i.id === selectedItemId);
+
+  document.getElementById('c-result-category').textContent = cat.label;
+  document.getElementById('c-result-item').textContent     = item.label;
+  document.getElementById('c-val-i').textContent            = cat.factor.toFixed(2);
+
+  elCPlaceholder.style.display = 'none';
+  show(elCResult);
 }
