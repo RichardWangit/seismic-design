@@ -49,7 +49,7 @@ let elCCategories, elCItemsPlaceholder, elCItemsList, elCNote,
 
 /* ── D 區 DOM refs ── */
 let elDAlphaYGrid, elDValAlphaY, elDCategories, elDItemsPlaceholder, elDCategoryNote,
-    elDGroupsList, elDItemsList,
+    elDGroupsList, elDItemsList, elDItemsRow,
     elDConfirmBtn, elDRResult, elDRaBox, elDRaGrid, elDFuBox, elDFuNoData, elDFuContent;
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -124,6 +124,7 @@ function initApp() {
   elDCategoryNote     = document.getElementById('d-category-note');
   elDGroupsList       = document.getElementById('d-groups-list');
   elDItemsList        = document.getElementById('d-items-list');
+  elDItemsRow         = document.getElementById('d-items-row');
   elDConfirmBtn       = document.getElementById('d-confirm-btn');
   elDRResult          = document.getElementById('d-r-result');
   elDRaBox            = document.getElementById('d-ra-box');
@@ -493,7 +494,7 @@ function resetFrom(level) {
 
 function show(el) {
   // near-row is a flex container; site-design-grid/b-site-grid are grid containers; zone-row and result are block
-  if (el.id === 'near-row' || el.id === 'c-items-list' || el.id === 'd-items-list' || el.id === 'd-groups-list') el.style.display = 'flex';
+  if (el.id === 'near-row' || el.id === 'c-items-list' || el.id === 'd-groups-list') el.style.display = 'flex';
   else if (el.id === 'site-design-grid' || el.id === 'b-site-grid' || el.id === 'd-alpha-y-grid' || el.id === 'd-ra-grid') el.style.display = 'grid';
   else el.style.display = 'block';
 }
@@ -775,7 +776,7 @@ function selectDuctilityCategory(id) {
   hide(elDItemsPlaceholder);
   show(elDGroupsList);
   elDItemsList.innerHTML = '';
-  hide(elDItemsList);
+  hide(elDItemsRow);
 
   elDConfirmBtn.disabled = true;
   hide(elDRResult);
@@ -798,7 +799,7 @@ function selectDuctilityGroup(groupId) {
   const group = cat.groups.find(g => g.id === groupId);
 
   if (!group.items) {
-    hide(elDItemsList);
+    hide(elDItemsRow);
     elDItemsList.innerHTML = '';
     selectedLeaf = { label: group.label, r: group.r, height_limit: group.height_limit };
     elDConfirmBtn.disabled = false;
@@ -815,7 +816,7 @@ function selectDuctilityGroup(groupId) {
     opt.addEventListener('click', () => selectDuctilityItem(item.id));
     elDItemsList.appendChild(opt);
   });
-  show(elDItemsList);
+  show(elDItemsRow);
 }
 
 /* 選擇「(1)(2)(3)…」階層子項 */
@@ -911,16 +912,20 @@ function refreshFuResult() {
   document.getElementById('d-val-fu').textContent = fu.value.toFixed(4);
   document.getElementById('d-fu-range').textContent = fu.label;
   document.getElementById('d-fu-formula').innerHTML = fu.formula;
+
+  const fum = calcFuM(T, t0d, selectedR);
+  document.getElementById('d-val-fum').textContent = fum.value.toFixed(4);
+  document.getElementById('d-fum-range').textContent = fum.label;
+  document.getElementById('d-fum-formula').innerHTML = fum.formula;
 }
 
-/* 依 (2-12) 式之四段規則，求結構系統地震力折減係數 Fu（列出符號式、數值代入式與計算過程） */
-function calcFu(T, t0d, Ra) {
-  const sq    = Math.sqrt(2 * Ra - 1);
+/* 依 (2-12) 式之四段規則，求折減係數（列出符號式、數值代入式與計算過程）
+   X 為代入 (2-12) 式之韌性容量值，symX／symOut 為其顯示符號（Ra／Fu 或 R／FuM） */
+function calcFuByFormula(T, t0d, X, symX, symOut) {
+  const sq    = Math.sqrt(2 * X - 1);
   const t0sup = 'T<sub>0</sub><sup>D</sup>';
-  const symFu = 'F<sub>u</sub>';
-  const symRa = 'R<sub>a</sub>';
-  const symSq = `√(2${symRa}－1)`;
-  const RaS   = Ra.toFixed(4);
+  const symSq = `√(2${symX}－1)`;
+  const XS    = X.toFixed(4);
   const t0dS  = t0d.toFixed(4);
   const TS    = T.toFixed(4);
   const sqS   = sq.toFixed(4);
@@ -928,24 +933,24 @@ function calcFu(T, t0d, Ra) {
   if (T >= t0d) {
     return {
       label: 'T ≥ T0D',
-      value: Ra,
+      value: X,
       formula:
-        `${symFu} = ${symRa}<br>` +
-        `　= ${RaS}　(2-12)`
+        `${symOut} = ${symX}<br>` +
+        `　= ${XS}　(2-12)`
     };
   }
   if (T >= 0.6 * t0d) {
-    const raMinusSq = Ra - sq;
-    const tMinus06  = T - 0.6 * t0d;
-    const denom04   = 0.4 * t0d;
-    const value     = sq + raMinusSq * tMinus06 / denom04;
+    const xMinusSq = X - sq;
+    const tMinus06 = T - 0.6 * t0d;
+    const denom04  = 0.4 * t0d;
+    const value    = sq + xMinusSq * tMinus06 / denom04;
     return {
       label: '0.6T0D ≤ T ≤ T0D',
       value,
       formula:
-        `${symFu} = ${symSq} + (${symRa}－${symSq}) × (T－0.6${t0sup}) / (0.4${t0sup})<br>` +
-        `　= √(2×${RaS}－1) + (${RaS}－${sqS}) × (${TS}－0.6×${t0dS}) / (0.4×${t0dS})<br>` +
-        `　= ${sqS} + (${raMinusSq.toFixed(4)}) × (${tMinus06.toFixed(4)}) / (${denom04.toFixed(4)})<br>` +
+        `${symOut} = ${symSq} + (${symX}－${symSq}) × (T－0.6${t0sup}) / (0.4${t0sup})<br>` +
+        `　= √(2×${XS}－1) + (${XS}－${sqS}) × (${TS}－0.6×${t0dS}) / (0.4×${t0dS})<br>` +
+        `　= ${sqS} + (${xMinusSq.toFixed(4)}) × (${tMinus06.toFixed(4)}) / (${denom04.toFixed(4)})<br>` +
         `　= ${value.toFixed(4)}　(2-12)`
     };
   }
@@ -954,8 +959,8 @@ function calcFu(T, t0d, Ra) {
       label: '0.2T0D ≤ T ≤ 0.6T0D',
       value: sq,
       formula:
-        `${symFu} = ${symSq}<br>` +
-        `　= √(2×${RaS}－1)<br>` +
+        `${symOut} = ${symSq}<br>` +
+        `　= √(2×${XS}－1)<br>` +
         `　= ${sqS}　(2-12)`
     };
   }
@@ -967,9 +972,19 @@ function calcFu(T, t0d, Ra) {
     label: 'T ≤ 0.2T0D',
     value,
     formula:
-      `${symFu} = ${symSq} + (${symSq}－1) × (T－0.2${t0sup}) / (0.2${t0sup})<br>` +
-      `　= √(2×${RaS}－1) + (√(2×${RaS}－1)－1) × (${TS}－0.2×${t0dS}) / (0.2×${t0dS})<br>` +
+      `${symOut} = ${symSq} + (${symSq}－1) × (T－0.2${t0sup}) / (0.2${t0sup})<br>` +
+      `　= √(2×${XS}－1) + (√(2×${XS}－1)－1) × (${TS}－0.2×${t0dS}) / (0.2×${t0dS})<br>` +
       `　= ${sqS} + (${sqMinus1.toFixed(4)}) × (${tMinus02.toFixed(4)}) / (${denom02.toFixed(4)})<br>` +
       `　= ${value.toFixed(4)}　(2-12)`
   };
+}
+
+/* 結構系統地震力折減係數 Fu（以容許韌性容量 Ra 代入） */
+function calcFu(T, t0d, Ra) {
+  return calcFuByFormula(T, t0d, Ra, 'R<sub>a</sub>', 'F<sub>u</sub>');
+}
+
+/* 結構系統地震力折減係數 FuM（以韌性容量 R 值取代 Ra 代入） */
+function calcFuM(T, t0d, R) {
+  return calcFuByFormula(T, t0d, R, 'R', 'F<sub>uM</sub>');
 }
