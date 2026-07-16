@@ -1,0 +1,47 @@
+  <main class="scroll">
+    <div class="scroll__inner">
+
+      <!-- ══ 起始降伏地震力放大倍數 αy（依 2.9 節說明） ══ -->
+      <section class="query-box" aria-label="起始降伏地震力放大倍數">
+        <span class="query-box__label">◈ 起始降伏地震力放大倍數 αy 選擇（依 2.9 節說明） ◈</span>
+
+        <div class="zone-toggle zone-toggle--column">
+          <label id="btn-yield-asd" class="zone-btn zone-btn--general">
+            <input type="radio" name="yield-method" value="1.2" id="yield-asd">
+            <span class="zone-btn__icon">․</span>
+            <span class="zone-btn__text">
+              鋼結構－容許應力設計法
+              <small>αy = 1.2</small>
+            </span>
+          </label>
+          <label id="btn-yield-lrfd" class="zone-btn zone-btn--near">
+            <input type="radio" name="yield-method" value="1.0" id="yield-lrfd">
+            <span class="zone-btn__icon">․</span>
+            <span class="zone-btn__text">
+              鋼構造／鋼骨鋼筋混凝土構造－極限設計法
+              <small>αy = 1.0</small>
+            </span>
+          </label>
+          <label id="btn-yield-rc" class="zone-btn zone-btn--bamboo">
+            <input type="radio" name="yield-method" value="1.5" id="yield-rc">
+            <span class="zone-btn__icon">․</span>
+            <span class="zone-btn__text">
+              鋼筋混凝土構造－極限強度設計法
+              <small>αy = 1.5</small>
+            </span>
+          </label>
+        </div>
+
+        <div class="coeff-grid coeff-grid--single" id="d-alpha-y-grid" style="display:none;">
+          <div class="coeff-cell">
+            <div class="coeff-cell__desc">起始降伏地震力放大倍數</div>
+            <div class="coeff-cell__symbol">α<sub>y</sub></div>
+            <div class="coeff-cell__value" id="d-val-alpha-y">—</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="ornament" aria-hidden="true">⊸ · · · ⊷</div>
+
+    </div>
+  </main>

@@ -265,6 +265,9 @@ select:disabled { opacity: 0.45; cursor: not-allowed; }
 /* 兩顆卡片水平並排，佔滿整行 */
 .zone-toggle { display: flex; flex-direction: row; gap: 0.85rem; width: 100%; }
 
+/* 卡片直向排列，一排一顆 */
+.zone-toggle--column { flex-direction: column; }
+
 .zone-btn {
   flex: 1; min-width: 180px;
   display: flex; align-items: center; gap: 0.75rem;
