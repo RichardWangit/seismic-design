@@ -36,5 +36,25 @@
     ],
     "cu_max": 1.4,
     "cu_note": "以其他結構力學方法計算之基本振動週期，不得大於前述經驗公式週期之 1.4 倍"
+  },
+  "table_2_7a": {
+    "title": "臺北盆地之工址設計水平加速度反應譜係數 SaD",
+    "symbol": "SaD",
+    "segments": [
+      { "id": "very_short", "label": "較短週期", "range": "T ≤ 0.2 T0D",        "formula": "SaD = SDS × (0.4 + 3T / T0D)" },
+      { "id": "short",      "label": "短週期",   "range": "0.2 T0D < T ≤ T0D",  "formula": "SaD = SDS" },
+      { "id": "mid",        "label": "中週期",   "range": "T0D < T ≤ 2.5 T0D",  "formula": "SaD = SDS × T0D / T" },
+      { "id": "long",       "label": "長週期",   "range": "2.5 T0D < T",        "formula": "SaD = 0.4 × SDS" }
+    ]
+  },
+  "table_2_7b": {
+    "title": "臺北盆地之工址最大考量水平加速度反應譜係數 SaM",
+    "symbol": "SaM",
+    "segments": [
+      { "id": "very_short", "label": "較短週期", "range": "T ≤ 0.2 T0M",        "formula": "SaM = SMS × (0.4 + 3T / T0M)" },
+      { "id": "short",      "label": "短週期",   "range": "0.2 T0M < T ≤ T0M",  "formula": "SaM = SMS" },
+      { "id": "mid",        "label": "中週期",   "range": "T0M < T ≤ 2.5 T0M",  "formula": "SaM = SMS × T0M / T" },
+      { "id": "long",       "label": "長週期",   "range": "2.5 T0M < T",        "formula": "SaM = 0.4 × SMS" }
+    ]
   }
 }

@@ -1,0 +1,5629 @@
+{
+  "description": "臺北市及新北市之臺北盆地微分區劃分表(表2-6(a))、屬一般震區之里的水平譜加速度係數(表2-6(b))，以及臺北盆地各微分區之工址係數與轉角週期(表2-6(c))",
+  "source": "建築物耐震設計規範及解說 表2-6(a)、表2-6(b)、表2-6(c)",
+  "microZones": {
+    "臺北一區": {
+      "sds": 0.6,
+      "sms": 0.8,
+      "t0": 1.6
+    },
+    "臺北二區": {
+      "sds": 0.6,
+      "sms": 0.8,
+      "t0": 1.3
+    },
+    "臺北三區": {
+      "sds": 0.6,
+      "sms": 0.8,
+      "t0": 1.05
+    }
+  },
+  "cities": [
+    {
+      "city": "新北市",
+      "districts": [
+        {
+          "name": "三重區",
+          "villages": "all",
+          "table": "a",
+          "microZone": "臺北一區"
+        },
+        {
+          "name": "蘆洲區",
+          "villages": "all",
+          "table": "a",
+          "microZone": "臺北一區"
+        },
+        {
+          "name": "五股區",
+          "villages": [
+            {
+              "name": "興珍里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "更寮里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "集福里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "成州里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "成功里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "五股里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "五福里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "德音里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "陸一里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "貿商里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "德泰里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "成德里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "六福里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "集賢里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "民義里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "成泰里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "水碓里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "福德里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "觀音里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "五龍里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            }
+          ]
+        },
+        {
+          "name": "泰山區",
+          "villages": [
+            {
+              "name": "山腳里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "福泰里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "楓樹里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "同榮里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "義學里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "明志里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "貴子里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "貴和里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "同興里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "義仁里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "泰友里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "新明里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "貴賢里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "福興里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "全興里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "大科里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "黎明里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            }
+          ]
+        },
+        {
+          "name": "永和區",
+          "villages": "all",
+          "table": "a",
+          "microZone": "臺北二區"
+        },
+        {
+          "name": "土城區",
+          "villages": [
+            {
+              "name": "埤塘里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "土城里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "員林里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "員仁里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "長風里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "日新里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "日和里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "貨饒里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "柑林里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "埤林里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "瑞興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "清水里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "清和里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "永豐里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "清溪里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "峰廷里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "平和里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "廷寮里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "大安里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "永寧里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "沛陂里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "頂埔里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "頂福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "頂新里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樂利里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "廣福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "學府里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "延壽里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "安和里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "青雲里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "員福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "延吉里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "復興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "裕生里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "員信里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "永富里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "學成里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "延和里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "中正里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "學士里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "明德里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "廣興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "青山里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "金城里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "延祿里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "清化里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "祖田里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            }
+          ]
+        },
+        {
+          "name": "新莊區",
+          "villages": [
+            {
+              "name": "海山里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "頭前里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "國泰里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "全安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "福基里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "豐年里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "忠孝里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "恆安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "後港里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "文衡里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中美里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "興漢里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中和里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "榮和里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中泰里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "瓊林里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "文德里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中誠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "文明里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中港里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "思源里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "立人里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "仁愛里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "立德里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "信義里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "立言里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "和平里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "立功里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "化成里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "立志里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "思賢里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "營盤里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "自強里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "自立里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "幸福里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "自信里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中華里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中隆里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中原里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中信里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "建福里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中宏里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中全里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "立泰里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "全泰里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "仁義里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "立基里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "昌明里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "昌平里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "文聖里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "福營里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "後德里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "建安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "泰豐里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "立廷里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中平里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "昌隆里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "昌信里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "福興里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "八德里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "西盛里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "裕民里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "富國里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "南港里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民本里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "光華里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "光榮里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "丹鳳里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "光明里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "合鳳里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "雙鳳里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍鳳里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "四維里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "萬安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "成德里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "光和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "光正里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民有里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民全里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "祥鳳里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "富民里",
+              "table": "a",
+              "microZone": "臺北二區"
+            }
+          ]
+        },
+        {
+          "name": "樹林區",
+          "villages": [
+            {
+              "name": "三多里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "三福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "圳安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "保安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "潭底里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "羌寮里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "圳福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "光興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "金寮里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "文林里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "圳民里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "圳生里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "三龍里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "樹德里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樹西里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樹南里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樹人里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "坡內里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樹東里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "大同里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "和平里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "彭厝里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "彭福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "東山里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "東陽里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "東昇里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樹北里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樹興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樹福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "彭興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "山佳里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "育英里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "中華里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "太順里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "北園里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "三興里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "樂山里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "東園里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "西園里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "南園里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "柑園里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "中山里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            }
+          ]
+        },
+        {
+          "name": "板橋區",
+          "villages": [
+            {
+              "name": "中正里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "江翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "純翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "溪頭里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "宏翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "仁翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "吉翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "德翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "滿翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "松翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "柏翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "龍翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "華翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "忠翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "嵐翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "文翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "青翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "懷翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "福翠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "港嘴里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "振興里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "振義里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "光復里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "埔墘里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "長壽里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "九如里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "光仁里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "埤墘里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "永安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "雙玉里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "廣新里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "東丘里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "文化里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "新海里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "富貴里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "正泰里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "松柏里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "文聖里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "留侯里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "流芳里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "赤松里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "黃石里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "挹秀里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "湳興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "社後里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "香社里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "自強里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "自立里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "光華里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "國光里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "港尾里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "金華里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "港德里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民權里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "建國里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "漢生里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "公舘里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新民里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "幸福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "忠誠里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "百壽里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "介壽里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新埔里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "華江里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "聯翠里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新翠里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "明翠里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福壽里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "海山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "玉光里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "深丘里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "香丘里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "西安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "長安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福丘里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福祿里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民族里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "國泰里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福德里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "景星里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福星里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "鄉雲里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "廣德里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "大豐里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "仁愛里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "華興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "華貴里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "華東里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "浮洲里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "華中里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "僑中里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "中山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "復興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "大安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "聚安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "崑崙里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "香雅里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新生里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "文德里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "莒光里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民生里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "後埔里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "華福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "成和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "光榮里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "陽明里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "朝陽里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "居仁里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "莊敬里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "東安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "大觀里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "歡園里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "重慶里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "和平里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "廣福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "華德里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "信義里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "溪洲里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "溪北里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "堂春里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "五權里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "溪福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            }
+          ]
+        },
+        {
+          "name": "中和區",
+          "villages": [
+            {
+              "name": "中原里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "平河里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "信和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "仁和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "中正里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "建和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "連和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "連城里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "力行里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "枋寮里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "漳和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "廟美里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福真里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福善里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福美里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福祥里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "瓦瓦里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "佳和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "安和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "泰安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新南里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "南山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "秀景里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "秀峰里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "頂南里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "華新里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "東南里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "華南里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "忠孝里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "崇南里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "景南里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "壽南里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "外南里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "復興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "和興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "景平里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "景新里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "景福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "景安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "景文里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "錦和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "錦昌里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "積穗里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民享里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "員山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "嘉穗里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "文元里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "嘉新里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "安穗里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "瑞穗里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "德穗里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民生里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "國光里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "德行里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "秀士里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "興南里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "景本里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福南里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "中興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "吉興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "中山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "碧河里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "錦中里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "錦盛里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民有里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "員富里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "冠穗里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "國華里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "正南里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "正行里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "安樂里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "安平里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "中安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "秀山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "秀成里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "秀福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "秀明里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "秀仁里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "秀水里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "宜安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "安順里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "秀義里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "灰磘里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "明穗里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "清穗里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "自強里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "壽德里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "明德里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "嘉慶里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "橫路里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "內南里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            }
+          ]
+        },
+        {
+          "name": "新店區",
+          "villages": [
+            {
+              "name": "永安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "永平里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "國豐里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "明德里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "大豐里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "大同里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "江陵里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "寶興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "寶安里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "信義里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "忠孝里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "大鵬里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "頂城里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "下城里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "公崙里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "張北里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "新安里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "忠誠里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "中正里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "中華里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "仁愛里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "百忍里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "百和里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "福德里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "百福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "福民里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "中山里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "和平里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "中央里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "安和里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "建國里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "復興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "安昌里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "寶福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "太平里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "柴埕里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "德安里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "雙城里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "日興里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "玫瑰里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "塗潭里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "美潭里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "員潭里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "雙坑里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "粗坑里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "屈尺里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "龜山里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "廣興里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "直潭里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "青潭里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "新店里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "張南里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "國校里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "文中里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "廣明里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "文明里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "中興里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "新生里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "新德里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "五峯里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "明城里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "吉祥里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "小城里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "香坡里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "美城里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "長春里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "達觀里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "華城里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            }
+          ]
+        },
+        {
+          "name": "淡水區",
+          "villages": [
+            {
+              "name": "福德里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "竹圍里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民生里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "八勢里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "竿蓁里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "鄧公里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "長庚里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "清文里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "草東里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "永吉里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新生里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "文化里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "油車里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "沙崙里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "大庄里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民權里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "幸福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "學府里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "中和里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "屯山里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "賢孝里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "興仁里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "蕃薯里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "義山里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "忠山里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "崁頂里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "埤島里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "新興里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "水碓里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "北投里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "水源里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "忠寮里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "樹興里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "坪頂里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "中興里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "協元里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "北新里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "正德里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "新民里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "新春里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "新義里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            }
+          ]
+        },
+        {
+          "name": "八里區",
+          "villages": [
+            {
+              "name": "龍源里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "米倉里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "大崁里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "埤頭里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "頂罟里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "舊城里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "訊塘里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "荖阡里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "下罟里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "長坑里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            }
+          ]
+        },
+        {
+          "name": "汐止區",
+          "villages": [
+            {
+              "name": "義民里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "禮門里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "智慧里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "信望里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "橋東里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "秀峰里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "新昌里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "復興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "長安里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "鄉長里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "江北里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樟樹里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "北峰里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "北山里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "橫科里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "福山里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "宜興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "中興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "湖光里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "仁德里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "厚德里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "忠孝里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "自強里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "城中里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "湖蓮里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "建成里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "環河里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "東勢里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "大同里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "秀山里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "福安里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "山光里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "康福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "福德里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "金龍里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "忠山里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "八連里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "白雲里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "東山里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "長青里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "崇德里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "文化里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "拱北里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "湖興里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "保安里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "茄苳里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "保長里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "烘內里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "保新里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            }
+          ]
+        },
+        {
+          "name": "鶯歌區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.6,
+          "ds1": 0.35,
+          "mss": 0.8,
+          "ms1": 0.5
+        },
+        {
+          "name": "三峽區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.7,
+          "ds1": 0.4,
+          "mss": 0.8,
+          "ms1": 0.5
+        },
+        {
+          "name": "瑞芳區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.6,
+          "ds1": 0.35,
+          "mss": 0.9,
+          "ms1": 0.55
+        },
+        {
+          "name": "林口區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.5,
+          "ds1": 0.3,
+          "mss": 0.7,
+          "ms1": 0.45
+        },
+        {
+          "name": "深坑區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.6,
+          "ds1": 0.35,
+          "mss": 0.8,
+          "ms1": 0.5
+        },
+        {
+          "name": "石碇區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.7,
+          "ds1": 0.4,
+          "mss": 0.9,
+          "ms1": 0.55
+        },
+        {
+          "name": "坪林區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.7,
+          "ds1": 0.4,
+          "mss": 0.9,
+          "ms1": 0.55
+        },
+        {
+          "name": "三芝區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.5,
+          "ds1": 0.3,
+          "mss": 0.7,
+          "ms1": 0.45
+        },
+        {
+          "name": "石門區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.5,
+          "ds1": 0.3,
+          "mss": 0.7,
+          "ms1": 0.45
+        },
+        {
+          "name": "平溪區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.6,
+          "ds1": 0.35,
+          "mss": 0.9,
+          "ms1": 0.55
+        },
+        {
+          "name": "雙溪區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.7,
+          "ds1": 0.4,
+          "mss": 0.9,
+          "ms1": 0.55
+        },
+        {
+          "name": "貢寮區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.7,
+          "ds1": 0.4,
+          "mss": 0.9,
+          "ms1": 0.55
+        },
+        {
+          "name": "金山區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.5,
+          "ds1": 0.3,
+          "mss": 0.7,
+          "ms1": 0.45
+        },
+        {
+          "name": "萬里區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.5,
+          "ds1": 0.3,
+          "mss": 0.8,
+          "ms1": 0.5
+        },
+        {
+          "name": "烏來區",
+          "villages": "all",
+          "table": "b",
+          "dss": 0.7,
+          "ds1": 0.4,
+          "mss": 0.9,
+          "ms1": 0.55
+        }
+      ]
+    },
+    {
+      "city": "臺北市",
+      "districts": [
+        {
+          "name": "大同區",
+          "villages": "all",
+          "table": "a",
+          "microZone": "臺北二區"
+        },
+        {
+          "name": "士林區",
+          "villages": [
+            {
+              "name": "社新里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "社園里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "永倫里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "福安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "富洲里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "仁勇里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "義信里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福林里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福德里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福志里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "舊佳里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福佳里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "後港里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福中里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "前港里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "百齡里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "承德里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福華里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "明勝里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福順里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "富光里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "葫蘆里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "葫東里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "社子里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "岩山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "名山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "德行里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "德華里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "聖山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "忠誠里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "芝山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "東山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "三玉里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "蘭雅里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "蘭興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "天福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "天祿里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "天壽里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "天和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "天山里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "天玉里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "臨溪里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "天母里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "永福里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "公館里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "新安里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "陽明里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "菁山里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "平等里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "溪山里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "翠山里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.8,
+              "ms1": 0.5
+            }
+          ]
+        },
+        {
+          "name": "北投區",
+          "villages": [
+            {
+              "name": "建民里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "文林里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "石牌里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "福興里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "榮光里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "吉慶里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "立賢里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "洲美里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "關渡里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "榮華里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "裕民里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "振華里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "永明里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "吉利里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "尊賢里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "立農里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "八仙里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "一德里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "永欣里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "東華里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "奇岩里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "清江里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "中央里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "長安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "大同里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "溫泉里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "中心里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "中庸里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "智仁里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "文化里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "豐年里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "稻香里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "桃源里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "永和里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "林泉里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "開明里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "中和里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "秀山里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "泉源里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "湖山里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "大屯里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "湖田里",
+              "table": "b",
+              "dss": 0.5,
+              "ds1": 0.3,
+              "mss": 0.7,
+              "ms1": 0.45
+            }
+          ]
+        },
+        {
+          "name": "中山區",
+          "villages": [
+            {
+              "name": "正守里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "正義里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "康樂里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中山里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "聚盛里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "聚葉里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "恆安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "晴光里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "圓山里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "劍潭里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "大直里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "成功里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "永安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "大佳里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "新喜里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "新庄里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "新福里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "松江里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "新生里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中庄里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "行政里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "行仁里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "行孝里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "下埤里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "江寧里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "江山里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中吉里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中原里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "興亞里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中央里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "朱馥里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "龍洲里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "朱園里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "埤頭里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "朱崙里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "力行里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "復華里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "北安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "正得里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "民安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "集英里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "金泰里",
+              "table": "a",
+              "microZone": "臺北二區"
+            }
+          ]
+        },
+        {
+          "name": "松山區",
+          "villages": [
+            {
+              "name": "精忠里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "龍田里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "東昌里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "東勢里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中華里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "民有里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "民福里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中正里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "中崙里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "美仁里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "吉仁里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "敦化里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "福成里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "松基里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "莊敬里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "東榮里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "三民里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新益里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "富錦里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新東里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "富泰里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "介壽里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "東光里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "安平里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "鵬程里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "自強里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "吉祥里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新聚里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "復盛里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "復源里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "復建里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "復勢里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "慈祐里",
+              "table": "a",
+              "microZone": "臺北三區"
+            }
+          ]
+        },
+        {
+          "name": "大安區",
+          "villages": [
+            {
+              "name": "德安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "仁慈里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "和安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "民炤里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "仁愛里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "義村里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "民輝里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "昌隆里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "誠安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "光武里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "龍圖里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "住安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "建安里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "建倫里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "龍坡里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍泉里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "古風里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "古莊里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "錦安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "福住里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "永康里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "光明里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "錦泰里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "錦華里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新龍里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍陣里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍雲里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍生里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "義安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "通化里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "通安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "臨江里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "法治里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "全安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "群賢里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "群英里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "虎嘯里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "臥龍里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍淵里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍門里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "大學里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "芳和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "敦安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "正聲里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "敦煌里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "華聲里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "車層里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "光信里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "學府里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "黎元里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "黎孝里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "黎和里",
+              "table": "a",
+              "microZone": "臺北三區"
+            }
+          ]
+        },
+        {
+          "name": "中正區",
+          "villages": [
+            {
+              "name": "梅花里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "幸市里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "三愛里",
+              "table": "a",
+              "microZone": "臺北一區"
+            },
+            {
+              "name": "水源里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "富水里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "文盛里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "林興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "河堤里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "頂東里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "網溪里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "板溪里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "螢圃里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "螢雪里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "永功里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "永昌里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "忠勤里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "廈安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "愛國里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "南門里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍光里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "南福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "龍福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新營里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "建國里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "光復里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "黎明里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "幸福里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "東門里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "文北里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "文祥里",
+              "table": "a",
+              "microZone": "臺北二區"
+            }
+          ]
+        },
+        {
+          "name": "萬華區",
+          "villages": "all",
+          "table": "a",
+          "microZone": "臺北二區"
+        },
+        {
+          "name": "文山區",
+          "villages": [
+            {
+              "name": "景行里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "景東里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "景美里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "景慶里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "景仁里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "景華里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "萬有里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "萬祥里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "萬隆里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "萬年里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "萬和里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "萬盛里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興豐里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興光里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興家里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興得里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興業里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興安里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興旺里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興泰里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興昌里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "試院里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "華興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "明義里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "明興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "木柵里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "木新里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "順興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樟林里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樟新里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樟腳里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "萬興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "忠順里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樟文里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "政大里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樟樹里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "興邦里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "指南里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "萬芳里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "老泉里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "博嘉里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "萬美里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            }
+          ]
+        },
+        {
+          "name": "信義區",
+          "villages": [
+            {
+              "name": "西村里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "正和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "興隆里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "中興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "新仁里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "景新里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "景聯里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "景勤里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "嘉興里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "黎順里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "黎平里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "三張里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "雙和里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "興雅里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "敦厚里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "廣居里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "安康里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "六藝里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "雅祥里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "五常里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "五全里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "永吉里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "長春里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "四育里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "四維里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "永春里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "富台里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "國業里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "松隆里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "松友里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "松光里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "中坡里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "中行里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "大道里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "大仁里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "惠安里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "三犁里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "黎忠里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "六合里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "泰和里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "黎安里",
+              "table": "a",
+              "microZone": "臺北三區"
+            }
+          ]
+        },
+        {
+          "name": "內湖區",
+          "villages": [
+            {
+              "name": "西湖里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "西康里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "西安里",
+              "table": "a",
+              "microZone": "臺北二區"
+            },
+            {
+              "name": "港墘里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "港都里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "港富里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "港華里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "內湖里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "湖濱里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "紫星里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "金龍里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "紫雲里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "清白里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "葫洲里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "紫陽里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "瑞陽里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "瑞光里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "五分里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "東湖里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "樂康里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "週美里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "行善里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "石潭里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "湖興里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "湖元里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "安湖里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "金湖里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "康寧里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "明湖里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "蘆洲里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "麗山里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "南湖里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "寶湖里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "大湖里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "金瑞里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "碧山里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "內溝里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "安泰里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.7,
+              "ms1": 0.45
+            },
+            {
+              "name": "秀湖里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.7,
+              "ms1": 0.45
+            }
+          ]
+        },
+        {
+          "name": "南港區",
+          "villages": [
+            {
+              "name": "南港里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "中南里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "新富里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "三重里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "東新里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "新光里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "東明里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "西新里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "玉成里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "合成里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "成福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "萬福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "鴻福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "百福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "聯成里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "中研里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "仁福里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "重陽里",
+              "table": "a",
+              "microZone": "臺北三區"
+            },
+            {
+              "name": "舊莊里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            },
+            {
+              "name": "九如里",
+              "table": "b",
+              "dss": 0.6,
+              "ds1": 0.35,
+              "mss": 0.8,
+              "ms1": 0.5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

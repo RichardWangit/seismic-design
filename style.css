@@ -345,6 +345,15 @@ select:disabled { opacity: 0.45; cursor: not-allowed; }
 .zone-btn--general.is-selected .zone-btn__text { color: var(--gold); }
 .zone-btn--near.is-selected    .zone-btn__text { color: var(--vermillion-dark); }
 
+/* 鎖定（不可點擊）：D 區依 A 區工址位置自動選定後，未選中之另一選項灰階鎖定 */
+.zone-btn.is-locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+  top: 0;
+}
+
 /* ════════════════════════════════════════════
    近斷層輸入列（near-row）
    ════════════════════════════════════════════ */

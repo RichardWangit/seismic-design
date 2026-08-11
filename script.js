@@ -19,6 +19,11 @@ let lastCoeffs    = null; // 最近一次查覽結果 { dss, ds1, mss, ms1 }，�
 let siteCoeffs    = null; // 工址放大後係數 { sds, sd1, sms, sm1, faDss, fvDs1, faMss, fvMs1 }，供未來 B/C 區塊取用
 let bPeriodResult = null; // B 區計算結果 { T, t0d }，供 D 區計算 Fu 使用
 
+/* ── 臺北市／新北市（表 2-6(a)(b)(c)）狀態變數 ── */
+let taipeiData      = null; // database/seismic_taipei.json
+let siteRegionType  = '';   // '' | 'a' | 'b'：A 區查詢命中表2-6(a)臺北盆地微分區 或 表2-6(b)一般震區之里
+let taipeiMicroZone = null; // 表2-6(a) 命中時之微分區資訊 { name, sds, sms, t0 }
+
 /* ── C 區狀態變數 ── */
 let selectedCategoryId = '';
 let selectedItemId     = '';
@@ -32,6 +37,7 @@ let selectedR            = null;
 let selectedHeightLimit  = '';
 let selectedSiteType     = '';
 let raValue              = null;
+let dSiteLocked          = false; // Ra 工址類型是否已依 A 區工址位置自動鎖定
 
 /* ── DOM refs ── */
 let elCounty, elDistrict, elZoneRow, elBtnGeneral, elBtnNear,
@@ -39,8 +45,11 @@ let elCounty, elDistrict, elZoneRow, elBtnGeneral, elBtnNear,
     elResult, elPlaceholder, elSoilSelect, elSoilBtn, elSiteDesignGrid,
     elNavItems, elContentPanels;
 
+/* ── 臺北市／新北市 DOM refs ── */
+let elVillageRow, elVillageSelect, elTaipeiABox, elGeneralCoeffGrid, elSoilCalcRow, elFaultBox;
+
 /* ── B 區 DOM refs ── */
-let elBNoData, elBSiteGrid, elBT0Row, elBPeriodBox, elBBuildingType,
+let elBNoData, elBSiteGrid, elBTaipeiGrid, elBT0Row, elBPeriodBox, elBBuildingType,
     elBHeightInput, elBCalcBtn, elBResult;
 
 /* ── C 區 DOM refs ── */
@@ -50,7 +59,7 @@ let elCCategories, elCItemsPlaceholder, elCItemsList, elCNote,
 /* ── D 區 DOM refs ── */
 let elDAlphaYGrid, elDValAlphaY, elDCategories, elDItemsPlaceholder, elDCategoryNote,
     elDGroupsList, elDItemsList, elDItemsRow,
-    elDConfirmBtn, elDRResult, elDRaBox, elDRaGrid, elDFuBox, elDFuNoData, elDFuContent;
+    elDConfirmBtn, elDRResult, elDRaBox, elDRaGrid, elDSiteLockNote, elDFuBox, elDFuNoData, elDFuContent;
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadSections();
@@ -100,8 +109,16 @@ function initApp() {
   elNavItems       = document.querySelectorAll('.nav-item');
   elContentPanels  = document.querySelectorAll('.content-panel');
 
+  elVillageRow       = document.getElementById('village-row');
+  elVillageSelect    = document.getElementById('village-select');
+  elTaipeiABox       = document.getElementById('taipei-a-box');
+  elGeneralCoeffGrid = document.getElementById('general-coeff-grid');
+  elSoilCalcRow      = document.getElementById('soil-calc-row');
+  elFaultBox         = document.getElementById('fault-box');
+
   elBNoData        = document.getElementById('b-no-data');
   elBSiteGrid      = document.getElementById('b-site-grid');
+  elBTaipeiGrid    = document.getElementById('b-taipei-grid');
   elBT0Row         = document.getElementById('b-t0-row');
   elBPeriodBox     = document.getElementById('b-period-box');
   elBBuildingType  = document.getElementById('b-building-type');
@@ -129,6 +146,7 @@ function initApp() {
   elDRResult          = document.getElementById('d-r-result');
   elDRaBox            = document.getElementById('d-ra-box');
   elDRaGrid           = document.getElementById('d-ra-grid');
+  elDSiteLockNote     = document.getElementById('d-site-lock-note');
   elDFuBox            = document.getElementById('d-fu-box');
   elDFuNoData         = document.getElementById('d-fu-no-data');
   elDFuContent        = document.getElementById('d-fu-content');
@@ -138,7 +156,10 @@ function initApp() {
   hide(elNearRow);
   hide(elResult);
   hide(elSiteDesignGrid);
+  hide(elVillageRow);
+  hide(elTaipeiABox);
   hide(elBSiteGrid);
+  hide(elBTaipeiGrid);
   hide(elBT0Row);
   hide(elBPeriodBox);
   hide(elBResult);
@@ -147,11 +168,13 @@ function initApp() {
   hide(elDRResult);
   hide(elDRaBox);
   hide(elDRaGrid);
+  hide(elDSiteLockNote);
   hide(elDFuBox);
 
   /* 事件綁定 */
   elCounty.addEventListener('change', onCountyChange);
   elDistrict.addEventListener('change', onDistrictChange);
+  elVillageSelect.addEventListener('change', onVillageChange);
   elBtnGeneral.addEventListener('click', () => selectZone('general'));
   elBtnNear.addEventListener('click',    () => selectZone('near'));
   elQueryBtn.addEventListener('click', onQuery);
@@ -162,8 +185,8 @@ function initApp() {
   document.getElementById('btn-yield-lrfd').addEventListener('click', () => selectYieldMethod(1.0));
   document.getElementById('btn-yield-rc').addEventListener('click', () => selectYieldMethod(1.5));
   elDConfirmBtn.addEventListener('click', onDuctilityConfirm);
-  document.getElementById('btn-site-general').addEventListener('click', () => selectSiteType('general'));
-  document.getElementById('btn-site-taipei').addEventListener('click',  () => selectSiteType('taipei'));
+  document.getElementById('btn-site-general').addEventListener('click', () => onSiteTypeClick('general'));
+  document.getElementById('btn-site-taipei').addEventListener('click',  () => onSiteTypeClick('taipei'));
   elNavItems.forEach(btn => btn.addEventListener('click', () => selectPanel(btn.dataset.panel)));
 
   loadData();
@@ -174,21 +197,23 @@ function initApp() {
    ════════════════════════════ */
 async function loadData() {
   try {
-    const [r1, r2, r3, r4, r5, r6] = await Promise.all([
+    const [r1, r2, r3, r4, r5, r6, r7] = await Promise.all([
       fetch('database/seismic.json'),
       fetch('database/near_fault.json'),
       fetch('database/amplification.json'),
       fetch('database/MCE.json'),
       fetch('database/importance.json'),
-      fetch('database/ductility.json')
+      fetch('database/ductility.json'),
+      fetch('database/seismic_taipei.json')
     ]);
-    if (!r1.ok || !r2.ok || !r3.ok || !r4.ok || !r5.ok || !r6.ok) throw new Error(`HTTP ${r1.status}/${r2.status}/${r3.status}/${r4.status}/${r5.status}/${r6.status}`);
+    if (!r1.ok || !r2.ok || !r3.ok || !r4.ok || !r5.ok || !r6.ok || !r7.ok) throw new Error(`HTTP ${r1.status}/${r2.status}/${r3.status}/${r4.status}/${r5.status}/${r6.status}/${r7.status}`);
     seismicData       = await r1.json();
     nearFaultData     = await r2.json();
     amplificationData = await r3.json();
     mceData           = await r4.json();
     importanceData    = await r5.json();
     ductilityData      = await r6.json();
+    taipeiData         = await r7.json();
     populateCounties();
     populateSoilClasses();
     populateBuildingTypes();
@@ -196,7 +221,7 @@ async function loadData() {
     populateDuctilityCategories();
   } catch (err) {
     console.error('資料載入失敗：', err);
-    elPlaceholder.textContent = '⚠ 資料載入失敗，請確認 database 目錄下之 seismic.json、near_fault.json、amplification.json、MCE.json、importance.json 與 ductility.json 是否存在。';
+    elPlaceholder.textContent = '⚠ 資料載入失敗，請確認 database 目錄下之 seismic.json、near_fault.json、amplification.json、MCE.json、importance.json、ductility.json 與 seismic_taipei.json 是否存在。';
   }
 }
 
@@ -207,6 +232,21 @@ function populateCounties() {
     opt.textContent = item.county;
     elCounty.appendChild(opt);
   });
+  taipeiData.cities.forEach((item, idx) => {
+    const opt = document.createElement('option');
+    opt.value = 'tp-' + idx;
+    opt.textContent = item.city;
+    elCounty.appendChild(opt);
+  });
+}
+
+/* 判斷目前選取之縣市是否為臺北市／新北市（表 2-6(a)(b)(c) 流程） */
+function isTaipeiCounty() {
+  return elCounty.value.indexOf('tp-') === 0;
+}
+
+function getTaipeiCity() {
+  return taipeiData.cities[parseInt(elCounty.value.slice(3), 10)];
 }
 
 function populateSoilClasses() {
@@ -231,9 +271,38 @@ function populateBuildingTypes() {
    縣市變更
    ════════════════════════════ */
 function onCountyChange() {
+  if (isTaipeiCounty()) { onCountyChangeTaipei(); return; }
+
   resetFrom('county');
+  hide(elVillageRow);
+  elVillageSelect.innerHTML = '<option value="">── 請先選擇鄉鎮市區 ──</option>';
+  elVillageSelect.disabled  = true;
+  siteRegionType  = '';
+  taipeiMicroZone = null;
+
   if (elCounty.value === '') { elDistrict.disabled = true; return; }
   seismicData[elCounty.value].districts.forEach((d, i) => {
+    const opt = document.createElement('option');
+    opt.value = i; opt.textContent = d.name;
+    elDistrict.appendChild(opt);
+  });
+  elDistrict.disabled = false;
+}
+
+/* 縣市變更（臺北市／新北市，表 2-6(a)(b)(c) 流程） */
+function onCountyChangeTaipei() {
+  hide(elResult);
+  hide(elZoneRow);
+  hide(elNearRow);
+  siteRegionType  = '';
+  taipeiMicroZone = null;
+
+  elDistrict.innerHTML = '<option value="">── 請選擇鄉鎮市區 ──</option>';
+  elVillageSelect.innerHTML = '<option value="">── 請先選擇鄉鎮市區 ──</option>';
+  elVillageSelect.disabled  = true;
+  hide(elVillageRow);
+
+  getTaipeiCity().districts.forEach((d, i) => {
     const opt = document.createElement('option');
     opt.value = i; opt.textContent = d.name;
     elDistrict.appendChild(opt);
@@ -245,10 +314,49 @@ function onCountyChange() {
    鄉鎮變更
    ════════════════════════════ */
 function onDistrictChange() {
+  if (isTaipeiCounty()) { onDistrictChangeTaipei(); return; }
+
   resetFrom('district');
   if (elDistrict.value === '') return;
   const d = getDistData();
   if (d.faults && d.faults.length > 0) show(elZoneRow);
+}
+
+/* 鄉鎮變更（臺北市／新北市）：依所屬區填入「里」選單（表 2-6(a)/(b) 混合或全區適用） */
+function onDistrictChangeTaipei() {
+  hide(elResult);
+  siteRegionType  = '';
+  taipeiMicroZone = null;
+
+  elVillageSelect.innerHTML = '<option value="">── 請選擇里 ──</option>';
+  if (elDistrict.value === '') {
+    elVillageSelect.disabled = true;
+    hide(elVillageRow);
+    return;
+  }
+
+  const dist = getTaipeiCity().districts[elDistrict.value];
+  if (dist.villages === 'all') {
+    const opt = document.createElement('option');
+    opt.value = 'all';
+    opt.textContent = '（全區適用）';
+    elVillageSelect.appendChild(opt);
+  } else {
+    dist.villages.forEach((v, i) => {
+      const opt = document.createElement('option');
+      opt.value = i; opt.textContent = v.name;
+      elVillageSelect.appendChild(opt);
+    });
+  }
+  elVillageSelect.disabled = false;
+  show(elVillageRow);
+}
+
+/* 里變更（臺北市／新北市）：先前查覽結果失效 */
+function onVillageChange() {
+  hide(elResult);
+  siteRegionType  = '';
+  taipeiMicroZone = null;
 }
 
 /* ════════════════════════════
@@ -289,11 +397,16 @@ function selectZone(zone) {
    查詢
    ════════════════════════════ */
 function onQuery() {
-  if (!elCounty.value)   { alert('請先選擇縣市');     return; }
+  if (!elCounty.value) { alert('請先選擇縣市'); return; }
+
+  if (isTaipeiCounty()) { onQueryTaipei(); return; }
+
   if (!elDistrict.value) { alert('請先選擇鄉鎮市區'); return; }
 
   const county = seismicData[elCounty.value].county;
   const d      = getDistData();
+  siteRegionType  = '';
+  taipeiMicroZone = null;
 
   /* 無鄰近斷層 */
   if (!d.faults || d.faults.length === 0) {
@@ -325,6 +438,70 @@ function onQuery() {
 
   const coeffs = getZoneCoeffs(rec, county, d.name);
   renderResult(county, d, 'near', fname, { r, ...interpolate(coeffs, r) });
+}
+
+/* 查詢（臺北市／新北市，依表 2-6(a)(b)(c) 分流） */
+function onQueryTaipei() {
+  if (!elDistrict.value)      { alert('請先選擇鄉鎮市區'); return; }
+  if (!elVillageSelect.value) { alert('請先選擇里');       return; }
+
+  const city = getTaipeiCity();
+  const dist = city.districts[elDistrict.value];
+
+  let record, villageLabel;
+  if (dist.villages === 'all') {
+    record = dist;
+    villageLabel = '（全區適用）';
+  } else {
+    record = dist.villages[elVillageSelect.value];
+    villageLabel = record.name;
+  }
+
+  const districtLabel = dist.name + '・' + villageLabel;
+
+  if (record.table === 'a') {
+    siteRegionType = 'a';
+    renderTaipeiZoneResult(city.city, districtLabel, record.microZone);
+  } else {
+    siteRegionType  = 'b';
+    taipeiMicroZone = null;
+    renderResult(city.city, {
+      name: districtLabel,
+      dss: record.dss, ds1: record.ds1, mss: record.mss, ms1: record.ms1,
+      faults: []
+    }, 'general-nofault', null, null);
+  }
+}
+
+/* 表 2-6(a) 臺北盆地微分區結果渲染（依表 2-6(c) 直接查得，無需地盤放大計算） */
+function renderTaipeiZoneResult(county, districtLabel, microZoneName) {
+  document.getElementById('result-county').textContent   = county;
+  document.getElementById('result-district').textContent = districtLabel;
+
+  const modeEl = document.getElementById('result-mode');
+  modeEl.textContent = `◆ 臺北盆地微分區「${microZoneName}」｜依表 2-6(c) 直接查得工址係數`;
+  modeEl.className   = 'result__mode mode--general';
+
+  const zone = taipeiData.microZones[microZoneName];
+  taipeiMicroZone = { name: microZoneName, sds: zone.sds, sms: zone.sms, t0: zone.t0 };
+
+  document.getElementById('val-taipei-zone').textContent = microZoneName;
+  document.getElementById('val-taipei-sds').textContent  = zone.sds.toFixed(2);
+  document.getElementById('val-taipei-sms').textContent  = zone.sms.toFixed(2);
+  document.getElementById('val-taipei-t0d').textContent  = zone.t0.toFixed(2) + ' 秒';
+  document.getElementById('val-taipei-t0m').textContent  = zone.t0.toFixed(2) + ' 秒';
+
+  hide(elGeneralCoeffGrid);
+  hide(elSoilCalcRow);
+  hide(elSiteDesignGrid);
+  hide(elFaultBox);
+  show(elTaipeiABox);
+
+  elPlaceholder.style.display = 'none';
+  show(elResult);
+
+  /* D 區若已完成 R 值查詢，同步更新 Ra 工址類型鎖定 */
+  applyDSiteLock();
 }
 
 /* ════════════════════════════
@@ -426,6 +603,12 @@ function renderResult(county, d, mode, activeFault, nv) {
   document.getElementById('result-county').textContent   = county;
   document.getElementById('result-district').textContent = d.name;
 
+  /* 一般流程（含表 2-6(b) 一般震區之里）：還原表 2-6(a) 微分區結果面板為隱藏 */
+  hide(elTaipeiABox);
+  show(elGeneralCoeffGrid);
+  show(elSoilCalcRow);
+  show(elFaultBox);
+
   /* 重置工址地盤放大計算區（每次查覽結果改變，先前的放大結果即失效） */
   elSoilSelect.value = '';
   hide(elSiteDesignGrid);
@@ -470,6 +653,9 @@ function renderResult(county, d, mode, activeFault, nv) {
 
   elPlaceholder.style.display = 'none';
   show(elResult);
+
+  /* D 區若已完成 R 值查詢，同步更新 Ra 工址類型鎖定 */
+  applyDSiteLock();
 }
 
 /* ════════════════════════════
@@ -495,7 +681,7 @@ function resetFrom(level) {
 function show(el) {
   // near-row is a flex container; site-design-grid/b-site-grid are grid containers; zone-row and result are block
   if (el.id === 'near-row' || el.id === 'c-items-list' || el.id === 'd-groups-list') el.style.display = 'flex';
-  else if (el.id === 'site-design-grid' || el.id === 'b-site-grid' || el.id === 'd-alpha-y-grid' || el.id === 'd-ra-grid') el.style.display = 'grid';
+  else if (el.id === 'site-design-grid' || el.id === 'b-site-grid' || el.id === 'd-alpha-y-grid' || el.id === 'd-ra-grid' || el.id === 'general-coeff-grid') el.style.display = 'grid';
   else el.style.display = 'block';
 }
 function hide(el) { el.style.display = 'none'; }
@@ -514,8 +700,44 @@ function selectPanel(panelId) {
    B 區：工址設計與最大考量水平譜加速度係數（2.6 節）
    ════════════════════════════ */
 
-/* 切入 B 區時，同步 A 區之工址放大結果（siteCoeffs） */
+/* 切入 B 區時，同步 A 區之工址係數（表 2-6(a) 微分區：siteRegionType==='a'；否則沿用 siteCoeffs） */
 function refreshPanelB() {
+  document.getElementById('b-t0-row-label').textContent =
+    siteRegionType === 'a' ? '⊹ 短週期與中、長週期分界（取自 A 區表 2-6(c) 微分區查詢結果）' : '⊹ 短週期與中、長週期分界（依 2-6 式計算）';
+
+  if (siteRegionType === 'a') {
+    hide(elBSiteGrid);
+
+    if (!taipeiMicroZone) {
+      show(elBNoData);
+      hide(elBTaipeiGrid);
+      hide(elBT0Row);
+      hide(elBPeriodBox);
+      hide(elBResult);
+      return;
+    }
+
+    hide(elBNoData);
+    show(elBTaipeiGrid);
+    show(elBT0Row);
+    show(elBPeriodBox);
+
+    document.getElementById('b-val-taipei-sds').textContent = taipeiMicroZone.sds.toFixed(2);
+    document.getElementById('b-val-taipei-sms').textContent = taipeiMicroZone.sms.toFixed(2);
+
+    const t0 = taipeiMicroZone.t0;
+    document.getElementById('b-val-t0d').textContent = t0.toFixed(2) + ' 秒';
+    document.getElementById('b-t0d-formula').innerHTML =
+      `T<sub>0</sub><sup>D</sup> = ${t0.toFixed(2)} 秒　（表 2-6(c)，臺北盆地「${taipeiMicroZone.name}」）`;
+
+    document.getElementById('b-val-t0m').textContent = t0.toFixed(2) + ' 秒';
+    document.getElementById('b-t0m-formula').innerHTML =
+      `T<sub>0</sub><sup>M</sup> = ${t0.toFixed(2)} 秒　（表 2-6(c)，臺北盆地「${taipeiMicroZone.name}」）`;
+    return;
+  }
+
+  hide(elBTaipeiGrid);
+
   if (!siteCoeffs) {
     show(elBNoData);
     hide(elBSiteGrid);
@@ -548,9 +770,13 @@ function refreshPanelB() {
     `T<sub>0</sub><sup>M</sup> = S<sub>M1</sub> / S<sub>MS</sub> = ${siteCoeffs.sm1.toFixed(2)} / ${siteCoeffs.sms.toFixed(2)} = ${t0m.toFixed(4)} 秒　(2-6)`;
 }
 
-/* 計算建築物基本振動週期 T，並依表 2-5(a)／2-5(b) 求 SaD、SaM */
+/* 計算建築物基本振動週期 T，並依表 2-5(a)／2-5(b)（或臺北盆地微分區之表 2-7(a)／2-7(b)）求 SaD、SaM */
 function onBCalc() {
-  if (!siteCoeffs) { alert('請先於 A 區完成工址地盤放大計算'); return; }
+  if (siteRegionType === 'a') {
+    if (!taipeiMicroZone) { alert('請先於 A 區完成臺北盆地微分區查詢'); return; }
+  } else if (!siteCoeffs) {
+    alert('請先於 A 區完成工址地盤放大計算'); return;
+  }
   if (!elBBuildingType.value) { alert('請先選擇建築物類型'); return; }
 
   const hn = parseFloat(elBHeightInput.value);
@@ -566,10 +792,29 @@ function onBCalc() {
   document.getElementById('b-t-formula').innerHTML =
     `T = ${type.coefficient} × h<sub>n</sub><sup>${n}</sup> = ${type.coefficient} × ${hn}<sup>${n}</sup> = ${type.coefficient} × ${Math.pow(hn, n).toFixed(4)} = ${T.toFixed(4)} 秒　${type.eq}`;
 
-  const t0d = siteCoeffs.sd1 / siteCoeffs.sds;
-  const t0m = siteCoeffs.sm1 / siteCoeffs.sms;
+  let t0d, t0m, sad, sam;
 
-  bPeriodResult = { T, t0d };
+  if (siteRegionType === 'a') {
+    t0d = taipeiMicroZone.t0;
+    t0m = taipeiMicroZone.t0;
+    bPeriodResult = { T, t0d };
+
+    document.getElementById('b-sad-table-label').innerHTML = '⊹ 工址設計水平譜加速度係數 S<sub>aD</sub>（表 2-7(a)）';
+    document.getElementById('b-sam-table-label').innerHTML = '⊹ 工址最大考量水平譜加速度係數 S<sub>aM</sub>（表 2-7(b)）';
+
+    sad = calcSpectralAccelTaipei(T, t0d, taipeiMicroZone.sds, 'D');
+    sam = calcSpectralAccelTaipei(T, t0m, taipeiMicroZone.sms, 'M');
+  } else {
+    t0d = siteCoeffs.sd1 / siteCoeffs.sds;
+    t0m = siteCoeffs.sm1 / siteCoeffs.sms;
+    bPeriodResult = { T, t0d };
+
+    document.getElementById('b-sad-table-label').innerHTML = '⊹ 工址設計水平譜加速度係數 S<sub>aD</sub>（表 2-5(a)）';
+    document.getElementById('b-sam-table-label').innerHTML = '⊹ 工址最大考量水平譜加速度係數 S<sub>aM</sub>（表 2-5(b)）';
+
+    sad = calcSpectralAccel(T, t0d, siteCoeffs.sds, siteCoeffs.sd1, 'D');
+    sam = calcSpectralAccel(T, t0m, siteCoeffs.sms, siteCoeffs.sm1, 'M');
+  }
 
   document.getElementById('b-val-sad-02t0d').textContent = (0.2 * t0d).toFixed(4) + ' 秒';
   document.getElementById('b-val-sad-t0d').textContent    = t0d.toFixed(4) + ' 秒';
@@ -578,9 +823,6 @@ function onBCalc() {
   document.getElementById('b-val-sam-02t0m').textContent = (0.2 * t0m).toFixed(4) + ' 秒';
   document.getElementById('b-val-sam-t0m').textContent    = t0m.toFixed(4) + ' 秒';
   document.getElementById('b-val-sam-25t0m').textContent  = (2.5 * t0m).toFixed(4) + ' 秒';
-
-  const sad = calcSpectralAccel(T, t0d, siteCoeffs.sds, siteCoeffs.sd1, 'D');
-  const sam = calcSpectralAccel(T, t0m, siteCoeffs.sms, siteCoeffs.sm1, 'M');
 
   document.getElementById('b-sad-range').textContent   = sad.label;
   document.getElementById('b-val-sad').textContent     = sad.value.toFixed(4);
@@ -628,6 +870,44 @@ function calcSpectralAccel(T, t0, Ss, S1, kind) {
     label: '長週期（2.5' + (kind === 'D' ? 'T0D' : 'T0M') + ' < T）',
     value,
     formula: `S${subA} = 0.4 × S${sub} = 0.4 × ${Ss.toFixed(2)} = ${value.toFixed(4)}`
+  };
+}
+
+/* 依表 2-7(a)／2-7(b) 之四段式規則（臺北盆地微分區專用，以 SDS／SMS 及 T0 直接代入，不經 SD1／SM1）求反應譜加速度係數 */
+function calcSpectralAccelTaipei(T, t0, Ss, kind) {
+  const sub   = kind === 'D' ? '<sub>DS</sub>' : '<sub>MS</sub>';
+  const subA  = kind === 'D' ? '<sub>aD</sub>' : '<sub>aM</sub>';
+  const t0sup = kind === 'D' ? 'T<sub>0</sub><sup>D</sup>' : 'T<sub>0</sub><sup>M</sup>';
+  const t0lbl = kind === 'D' ? 'T0D' : 'T0M';
+
+  if (T <= 0.2 * t0) {
+    const value = Ss * (0.4 + 3 * T / t0);
+    return {
+      label: '較短週期（T ≤ 0.2' + t0lbl + '）',
+      value,
+      formula: `S${subA} = S${sub} × (0.4 + 3T / ${t0sup}) = ${Ss.toFixed(2)} × (0.4 + 3×${T.toFixed(4)}/${t0.toFixed(4)}) = ${value.toFixed(4)}　(2-7)`
+    };
+  }
+  if (T <= t0) {
+    return {
+      label: '短週期（0.2' + t0lbl + ' < T ≤ ' + t0lbl + '）',
+      value: Ss,
+      formula: `S${subA} = S${sub} = ${Ss.toFixed(4)}　(2-7)`
+    };
+  }
+  if (T <= 2.5 * t0) {
+    const value = Ss * t0 / T;
+    return {
+      label: '中週期（' + t0lbl + ' < T ≤ 2.5' + t0lbl + '）',
+      value,
+      formula: `S${subA} = S${sub} × ${t0sup} / T = ${Ss.toFixed(2)} × ${t0.toFixed(4)} / ${T.toFixed(4)} = ${value.toFixed(4)}　(2-7)`
+    };
+  }
+  const value = 0.4 * Ss;
+  return {
+    label: '長週期（2.5' + t0lbl + ' < T）',
+    value,
+    formula: `S${subA} = 0.4 × S${sub} = 0.4 × ${Ss.toFixed(2)} = ${value.toFixed(4)}　(2-7)`
   };
 }
 
@@ -782,6 +1062,8 @@ function selectDuctilityCategory(id) {
   hide(elDRResult);
   hide(elDRaBox);
   hide(elDRaGrid);
+  hide(elDSiteLockNote);
+  dSiteLocked = false;
   hide(elDFuBox);
 }
 
@@ -847,7 +1129,7 @@ function onDuctilityConfirm() {
   document.getElementById('d-val-height').textContent       = selectedLeaf.height_limit;
   show(elDRResult);
 
-  /* R 值變更，重設下游之 Ra／Fu 計算 */
+  /* R 值變更，重設下游之 Ra／Fu 計算，並依 A 區工址位置自動鎖定 Ra 類型 */
   selectedSiteType = '';
   raValue = null;
   document.getElementById('d-site-general').checked = false;
@@ -858,6 +1140,33 @@ function onDuctilityConfirm() {
   hide(elDFuBox);
 
   show(elDRaBox);
+  applyDSiteLock();
+}
+
+/* 工址類型卡片點擊入口：鎖定期間不回應點擊 */
+function onSiteTypeClick(type) {
+  if (dSiteLocked) return;
+  selectSiteType(type);
+}
+
+/* 依 A 區工址位置（siteRegionType）自動選定並鎖定 Ra 工址類型：
+   表 2-6(a) 臺北盆地微分區 → 「臺北盆地」；其餘（含表 2-6(b) 一般震區之里與既有各縣市） → 「一般工址與近斷層工址」 */
+function applyDSiteLock() {
+  if (selectedR === null) return;
+
+  const target = siteRegionType === 'a' ? 'taipei' : 'general';
+  const other  = target === 'taipei' ? 'general' : 'taipei';
+
+  selectSiteType(target);
+  dSiteLocked = true;
+
+  document.getElementById('btn-site-' + target).classList.remove('is-locked');
+  document.getElementById('btn-site-' + other).classList.add('is-locked');
+
+  elDSiteLockNote.textContent = target === 'taipei'
+    ? '⊹ 已依 A 區工址位置（表 2-6(a) 臺北盆地微分區）自動鎖定為「臺北盆地」。'
+    : '⊹ 已依 A 區工址位置自動鎖定為「一般工址與近斷層工址」。';
+  show(elDSiteLockNote);
 }
 
 /* 結構系統容許韌性容量 Ra 計算（(2-10)／(2-11) 式） */
