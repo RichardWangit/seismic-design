@@ -21,6 +21,16 @@
           </div>
         </div>
 
+        <!-- 列一之二：里（僅臺北市／新北市顯示，依表 2-6(a)(b) 查詢） -->
+        <div class="query-box__row" id="village-row" style="display:none;">
+          <div class="form-group">
+            <label for="village-select">里</label>
+            <select id="village-select" disabled>
+              <option value="">── 請先選擇鄉鎮市區 ──</option>
+            </select>
+          </div>
+        </div>
+
         <!-- 列二：工址位置判斷（JS 控制顯示） -->
         <div id="zone-row" class="zone-row">
           <div class="zone-row__label">⊹ 工址位置判斷</div>
@@ -78,7 +88,41 @@
           <span class="result__district" id="result-district"></span>
         </div>
         <div class="result__mode" id="result-mode"></div>
-        <div class="coeff-grid">
+
+        <!-- 表 2-6(a) 臺北盆地微分區：直接查得工址係數，不需地盤放大計算 -->
+        <div id="taipei-a-box" style="display:none;">
+          <p class="placeholder" id="taipei-a-note" style="padding:0.5rem 0;">本工址位於臺北盆地「<span id="val-taipei-zone">—</span>」，依表 2-6(c) 直接查得工址短週期係數與轉角週期，免依 2.5 節作地盤放大計算。</p>
+          <div class="coeff-grid" id="taipei-a-grid">
+            <div class="coeff-cell">
+              <span class="coeff-cell__badge coeff-cell__badge--design">工址設計值</span>
+              <div class="coeff-cell__desc">工址短週期設計水平譜加速度係數</div>
+              <div class="coeff-cell__symbol">S<sub>DS</sub></div>
+              <div class="coeff-cell__value" id="val-taipei-sds">—</div>
+              <div class="coeff-cell__note">（表 2-6(c)）</div>
+            </div>
+            <div class="coeff-cell">
+              <span class="coeff-cell__badge coeff-cell__badge--max">工址最大考量值</span>
+              <div class="coeff-cell__desc">工址短週期最大考量水平譜加速度係數</div>
+              <div class="coeff-cell__symbol">S<sub>MS</sub></div>
+              <div class="coeff-cell__value" id="val-taipei-sms">—</div>
+              <div class="coeff-cell__note">（表 2-6(c)）</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">反應譜短、中週期分界之轉角週期（設計地震）</div>
+              <div class="coeff-cell__symbol">T<sub>0</sub><sup>D</sup></div>
+              <div class="coeff-cell__value" id="val-taipei-t0d">—</div>
+              <div class="coeff-cell__note">（表 2-6(c)）</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">反應譜短、中週期分界之轉角週期（最大考量地震）</div>
+              <div class="coeff-cell__symbol">T<sub>0</sub><sup>M</sup></div>
+              <div class="coeff-cell__value" id="val-taipei-t0m">—</div>
+              <div class="coeff-cell__note">（表 2-6(c)）</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="coeff-grid" id="general-coeff-grid">
           <div class="coeff-cell">
             <span class="coeff-cell__badge coeff-cell__badge--design">設計值</span>
             <div class="coeff-cell__desc">短週期設計水平譜加速度係數</div>
@@ -108,7 +152,7 @@
             <div class="coeff-cell__note">（一秒週期 · 最大考量地震）</div>
           </div>
         </div>
-        <div class="zone-row">
+        <div class="zone-row" id="soil-calc-row">
           <div class="zone-row__label">⊹ 工址地盤放大計算（依 2.5 節，表 2-4 內插）</div>
           <div class="query-box__row">
             <div class="form-group">
@@ -156,7 +200,7 @@
           </div>
         </div>
 
-        <div class="fault-box">
+        <div class="fault-box" id="fault-box">
           <div class="fault-box__title">鄰近之活動斷層</div>
           <div class="fault-tags" id="fault-tags"></div>
         </div>
