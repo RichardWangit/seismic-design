@@ -17,7 +17,9 @@ const DIST_NODES  = [1, 3, 5, 7, 9, 11, 13, 14];
 let selectedZone  = '';   // 'general' | 'near' | ''
 let lastCoeffs    = null; // 最近一次查覽結果 { dss, ds1, mss, ms1 }，供地盤放大計算使用
 let siteCoeffs    = null; // 工址放大後係數 { sds, sd1, sms, sm1, faDss, fvDs1, faMss, fvMs1 }，供未來 B/C 區塊取用
+let selectedSoilClass = null; // A 區地盤放大計算所選之地盤分類（1/2/3），供 F 區近斷層分支重算使用
 let bPeriodResult = null; // B 區計算結果 { T, t0d }，供 D 區計算 Fu 使用
+let bSpectralResult = null; // B 區計算結果 { sad, sam }，供 F 區取用
 
 /* ── 臺北市／新北市（表 2-6(a)(b)(c)）狀態變數 ── */
 let taipeiData      = null; // database/seismic_taipei.json
@@ -27,6 +29,7 @@ let taipeiMicroZone = null; // 表2-6(a) 命中時之微分區資訊 { name, sds
 /* ── C 區狀態變數 ── */
 let selectedCategoryId = '';
 let selectedItemId     = '';
+let selectedImportanceFactor = null; // C 區已確認之用途係數 I，供 F 區取用
 
 /* ── D 區狀態變數 ── */
 let selectedAlphaY       = null;
@@ -38,6 +41,7 @@ let selectedHeightLimit  = '';
 let selectedSiteType     = '';
 let raValue              = null;
 let dSiteLocked          = false; // Ra 工址類型是否已依 A 區工址位置自動鎖定
+let fuResult              = null; // D 區計算結果 { fu, fum }，供 F 區取用
 
 /* ── DOM refs ── */
 let elCounty, elDistrict, elZoneRow, elBtnGeneral, elBtnNear,
@@ -61,6 +65,9 @@ let elDAlphaYGrid, elDValAlphaY, elDCategories, elDItemsPlaceholder, elDCategory
     elDGroupsList, elDItemsList, elDItemsRow,
     elDConfirmBtn, elDRResult, elDRaBox, elDRaGrid, elDSiteLockNote, elDFuBox, elDFuNoData, elDFuContent;
 
+/* ── F 區 DOM refs ── */
+let elFNoData, elFContent, elFNfRecalc;
+
 document.addEventListener('DOMContentLoaded', async () => {
   await loadSections();
   initApp();
@@ -71,19 +78,21 @@ document.addEventListener('DOMContentLoaded', async () => {
    ════════════════════════════ */
 async function loadSections() {
   try {
-    const [aRes, bRes, cRes, dRes, eRes] = await Promise.all([
+    const [aRes, bRes, cRes, dRes, eRes, fRes] = await Promise.all([
       fetch('sections/sec-a.html'),
       fetch('sections/sec-b.html'),
       fetch('sections/sec-c.html'),
       fetch('sections/sec-d.html'),
-      fetch('sections/sec-e.html')
+      fetch('sections/sec-e.html'),
+      fetch('sections/sec-f.html')
     ]);
-    if (!aRes.ok || !bRes.ok || !cRes.ok || !dRes.ok || !eRes.ok) throw new Error(`HTTP ${aRes.status}/${bRes.status}/${cRes.status}/${dRes.status}/${eRes.status}`);
+    if (!aRes.ok || !bRes.ok || !cRes.ok || !dRes.ok || !eRes.ok || !fRes.ok) throw new Error(`HTTP ${aRes.status}/${bRes.status}/${cRes.status}/${dRes.status}/${eRes.status}/${fRes.status}`);
     document.getElementById('panel-a').innerHTML = await aRes.text();
     document.getElementById('panel-b').innerHTML = await bRes.text();
     document.getElementById('panel-c').innerHTML = await cRes.text();
     document.getElementById('panel-d').innerHTML = await dRes.text();
     document.getElementById('panel-e').innerHTML = await eRes.text();
+    document.getElementById('panel-f').innerHTML = await fRes.text();
   } catch (err) {
     console.error('區塊載入失敗：', err);
     document.querySelector('.app-content').innerHTML =
@@ -151,6 +160,10 @@ function initApp() {
   elDFuNoData         = document.getElementById('d-fu-no-data');
   elDFuContent        = document.getElementById('d-fu-content');
 
+  elFNoData  = document.getElementById('f-no-data');
+  elFContent = document.getElementById('f-content');
+  elFNfRecalc = document.getElementById('f-nf-recalc');
+
   /* 初始全隱藏 */
   hide(elZoneRow);
   hide(elNearRow);
@@ -170,6 +183,8 @@ function initApp() {
   hide(elDRaGrid);
   hide(elDSiteLockNote);
   hide(elDFuBox);
+  hide(elFContent);
+  hide(elFNfRecalc);
 
   /* 事件綁定 */
   elCounty.addEventListener('change', onCountyChange);
@@ -527,6 +542,7 @@ function onSoilCalc() {
   const sm1 = fvMs1 * lastCoeffs.ms1;
 
   siteCoeffs = { sds, sd1, sms, sm1, faDss, fvDs1, faMss, fvMs1 };
+  selectedSoilClass = cls;
 
   document.getElementById('val-sds').textContent = sds.toFixed(2);
   document.getElementById('val-sd1').textContent = sd1.toFixed(2);
@@ -694,6 +710,7 @@ function selectPanel(panelId) {
   elContentPanels.forEach(sec => sec.classList.toggle('is-active', sec.id === panelId));
   if (panelId === 'panel-b') refreshPanelB();
   if (panelId === 'panel-d') refreshPanelD();
+  if (panelId === 'panel-f') refreshPanelF();
 }
 
 /* ════════════════════════════
@@ -815,6 +832,8 @@ function onBCalc() {
     sad = calcSpectralAccel(T, t0d, siteCoeffs.sds, siteCoeffs.sd1, 'D');
     sam = calcSpectralAccel(T, t0m, siteCoeffs.sms, siteCoeffs.sm1, 'M');
   }
+
+  bSpectralResult = { sad: sad.value, sam: sam.value };
 
   document.getElementById('b-val-sad-02t0d').textContent = (0.2 * t0d).toFixed(4) + ' 秒';
   document.getElementById('b-val-sad-t0d').textContent    = t0d.toFixed(4) + ' 秒';
@@ -985,6 +1004,7 @@ function onImportanceConfirm() {
   document.getElementById('c-result-category').textContent = cat.label;
   document.getElementById('c-result-item').textContent     = item.label;
   document.getElementById('c-val-i').textContent            = cat.factor.toFixed(2);
+  selectedImportanceFactor = cat.factor;
 
   elCPlaceholder.style.display = 'none';
   show(elCResult);
@@ -1226,6 +1246,8 @@ function refreshFuResult() {
   document.getElementById('d-val-fum').textContent = fum.value.toFixed(4);
   document.getElementById('d-fum-range').textContent = fum.label;
   document.getElementById('d-fum-formula').innerHTML = fum.formula;
+
+  fuResult = { fu: fu.value, fum: fum.value };
 }
 
 /* 依 (2-12) 式之四段規則，求折減係數（列出符號式、數值代入式與計算過程）
@@ -1296,4 +1318,191 @@ function calcFu(T, t0d, Ra) {
 /* 結構系統地震力折減係數 FuM（以韌性容量 R 值取代 Ra 代入） */
 function calcFuM(T, t0d, R) {
   return calcFuByFormula(T, t0d, R, 'R', 'F<sub>uM</sub>');
+}
+
+/* ════════════════════════════
+   F 區：設計地震力（2.2、2.10.1、2.10.2 節）
+   ════════════════════════════ */
+
+/* 依 (2-2)／(2-13d) 式之三段規則，計算 Sa/Fu 修正值
+   kind：'D' → SaD/Fu 符號；'M' → SaM/FuM 符號；eqLabel 為引用之式號 */
+function calcRatioMod(sa, fu, kind, eqLabel) {
+  const symSa  = kind === 'D' ? 'S<sub>aD</sub>' : 'S<sub>aM</sub>';
+  const symFu  = kind === 'D' ? 'F<sub>u</sub>'  : 'F<sub>uM</sub>';
+  const ratio  = sa / fu;
+  const saS    = sa.toFixed(4);
+  const fuS    = fu.toFixed(4);
+  const ratioS = ratio.toFixed(4);
+
+  const ratioFormula = `${symSa} / ${symFu} = ${saS} / ${fuS} = ${ratioS}`;
+
+  let mod, label, modFormula;
+  if (ratio <= 0.3) {
+    mod = ratio;
+    label = `${symSa}/${symFu} ≤ 0.3`;
+    modFormula = `(${symSa}/${symFu})<sub>m</sub> = ${symSa}/${symFu} = ${ratioS}　${eqLabel}`;
+  } else if (ratio < 0.8) {
+    mod = 0.52 * ratio + 0.144;
+    label = `0.3 < ${symSa}/${symFu} < 0.8`;
+    modFormula = `(${symSa}/${symFu})<sub>m</sub> = 0.52 × ${symSa}/${symFu} + 0.144 = 0.52 × ${ratioS} + 0.144 = ${mod.toFixed(4)}　${eqLabel}`;
+  } else {
+    mod = 0.70 * ratio;
+    label = `${symSa}/${symFu} ≥ 0.8`;
+    modFormula = `(${symSa}/${symFu})<sub>m</sub> = 0.70 × ${symSa}/${symFu} = 0.70 × ${ratioS} = ${mod.toFixed(4)}　${eqLabel}`;
+  }
+
+  return { ratio, mod, label, ratioFormula, modFormula };
+}
+
+/* 切入 F 區時，彙整 B（SaD／SaM）、C（I）、D（Fu／FuM）、E（αy）之成果，
+   計算 V（2-3 式）、V*（2-13a／2-13b 式）、VM（2-13c 式） */
+function refreshPanelF() {
+  if (!bSpectralResult || !fuResult || selectedImportanceFactor === null || selectedAlphaY === null) {
+    show(elFNoData);
+    hide(elFContent);
+    return;
+  }
+  hide(elFNoData);
+  show(elFContent);
+
+  const I   = selectedImportanceFactor;
+  const ay  = selectedAlphaY;
+  const sad = bSpectralResult.sad;
+  const sam = bSpectralResult.sam;
+  const fu  = fuResult.fu;
+  const fum = fuResult.fum;
+
+  /* ── F-1：最小設計水平總橫力 V（(2-1)～(2-3) 式） ── */
+  document.getElementById('f-val-sad').textContent    = sad.toFixed(4);
+  document.getElementById('f-val-fu').textContent     = fu.toFixed(4);
+  document.getElementById('f-val-i').textContent      = I.toFixed(2);
+  document.getElementById('f-val-alphay').textContent = ay.toFixed(1);
+
+  const rv = calcRatioMod(sad, fu, 'D', '(2-2)');
+  document.getElementById('f-val-ratio-v').textContent   = rv.ratio.toFixed(4);
+  document.getElementById('f-ratio-v-formula').innerHTML = rv.ratioFormula;
+  document.getElementById('f-val-mod-v').textContent     = rv.mod.toFixed(4);
+  document.getElementById('f-mod-v-range').textContent   = rv.label;
+  document.getElementById('f-mod-v-formula').innerHTML   = rv.modFormula;
+
+  const vCoeff = I / (1.4 * ay) * rv.mod;
+  document.getElementById('f-val-v').textContent   = `${vCoeff.toFixed(4)} × W`;
+  document.getElementById('f-v-formula').innerHTML =
+    `V = I / (1.4α<sub>y</sub>) × (S<sub>aD</sub>/F<sub>u</sub>)<sub>m</sub> × W = ` +
+    `${I.toFixed(2)} / (1.4×${ay.toFixed(1)}) × ${rv.mod.toFixed(4)} × W = ${vCoeff.toFixed(4)} × W　(2-3)`;
+
+  /* ── F-2：避免中小度地震降伏之設計地震力 V*（2.10.1 節） ── */
+  const modeNoteEl = document.getElementById('f-vstar-mode-note');
+  let sadForVstar, vstarDivisor, vstarEq;
+
+  if (selectedZone === 'near') {
+    show(elFNfRecalc);
+    modeNoteEl.textContent =
+      '⊹ A 區工址位置屬近斷層，依 2.10.1 節規定，(2-13a) 式中之 SaD 不須考慮近斷層效應，逕以表 2-1 之值重新計算工址係數；近斷層工址依規定採 (2-13a) 式計算 V*。';
+
+    const d = getDistData();
+    const dssNf = +d.dss, ds1Nf = +d.ds1, mssNf = +d.mss, ms1Nf = +d.ms1;
+
+    document.getElementById('f-nf-val-dss').textContent = dssNf.toFixed(2);
+    document.getElementById('f-nf-val-ds1').textContent = ds1Nf.toFixed(2);
+    document.getElementById('f-nf-val-mss').textContent = mssNf.toFixed(2);
+    document.getElementById('f-nf-val-ms1').textContent = ms1Nf.toFixed(2);
+
+    const cls    = selectedSoilClass;
+    const faVals = amplificationData.fa.soil_classes.find(c => c.class === cls).values;
+    const fvVals = amplificationData.fv.soil_classes.find(c => c.class === cls).values;
+    const faSs   = amplificationData.fa.ss_nodes;
+    const fvS1   = amplificationData.fv.s1_nodes;
+
+    const faDssNf = interpNodes(faSs, faVals, dssNf);
+    const fvDs1Nf = interpNodes(fvS1, fvVals, ds1Nf);
+    const faMssNf = interpNodes(faSs, faVals, mssNf);
+    const fvMs1Nf = interpNodes(fvS1, fvVals, ms1Nf);
+
+    const sdsNf = faDssNf * dssNf;
+    const sd1Nf = fvDs1Nf * ds1Nf;
+    const smsNf = faMssNf * mssNf;
+    const sm1Nf = fvMs1Nf * ms1Nf;
+
+    document.getElementById('f-nf-val-sds').textContent    = sdsNf.toFixed(2);
+    document.getElementById('f-nf-val-fa-sds').textContent = faDssNf.toFixed(2);
+    document.getElementById('f-nf-val-sd1').textContent    = sd1Nf.toFixed(2);
+    document.getElementById('f-nf-val-fv-sd1').textContent = fvDs1Nf.toFixed(2);
+    document.getElementById('f-nf-val-sms').textContent    = smsNf.toFixed(2);
+    document.getElementById('f-nf-val-fa-sms').textContent = faMssNf.toFixed(2);
+    document.getElementById('f-nf-val-sm1').textContent    = sm1Nf.toFixed(2);
+    document.getElementById('f-nf-val-fv-sm1').textContent = fvMs1Nf.toFixed(2);
+
+    const t0dNf = sd1Nf / sdsNf;
+    document.getElementById('f-nf-val-t0d').textContent = t0dNf.toFixed(4) + ' 秒';
+    document.getElementById('f-nf-t0d-formula').innerHTML =
+      `T<sub>0</sub><sup>D</sup> = S<sub>D1</sub> / S<sub>DS</sub> = ${sd1Nf.toFixed(2)} / ${sdsNf.toFixed(2)} = ${t0dNf.toFixed(4)} 秒　(2-6)`;
+
+    const sadNf = calcSpectralAccel(bPeriodResult.T, t0dNf, sdsNf, sd1Nf, 'D');
+    document.getElementById('f-nf-val-sad').textContent   = sadNf.value.toFixed(4);
+    document.getElementById('f-nf-sad-range').textContent = sadNf.label;
+    document.getElementById('f-nf-sad-formula').innerHTML = sadNf.formula;
+
+    sadForVstar  = sadNf.value;
+    vstarDivisor = 4.2;
+    vstarEq      = '(2-13a)';
+
+    document.getElementById('f-vstar-params-label').innerHTML = '⊹ 不考慮近斷層效應之 S<sub>aD</sub> 與 F<sub>u</sub>';
+  } else {
+    hide(elFNfRecalc);
+    sadForVstar = sad; // 非近斷層：直接沿用 F-1（B 區）之 SaD
+
+    if (siteRegionType === 'a') {
+      modeNoteEl.textContent =
+        '⊹ A 區工址位置為非近斷層，且位於表 2-6(a) 臺北盆地微分區，依 2.10.1 節採 (2-13b) 式計算 V*，SaD 沿用 B 區計算成果。';
+      vstarDivisor = 3.5;
+      vstarEq      = '(2-13b)';
+    } else {
+      modeNoteEl.textContent =
+        '⊹ A 區工址位置為非近斷層，依 2.10.1 節採 (2-13a) 式計算 V*，SaD 沿用 B 區計算成果。';
+      vstarDivisor = 4.2;
+      vstarEq      = '(2-13a)';
+    }
+    document.getElementById('f-vstar-params-label').innerHTML = '⊹ S<sub>aD</sub> 與 F<sub>u</sub>（SaD 同取自 B 區）';
+  }
+
+  document.getElementById('f-val-sad-vstar').textContent = sadForVstar.toFixed(4);
+  document.getElementById('f-val-fu-vstar').textContent  = fu.toFixed(4);
+
+  const rvs = calcRatioMod(sadForVstar, fu, 'D', '(2-2)');
+  document.getElementById('f-val-ratio-vstar').textContent   = rvs.ratio.toFixed(4);
+  document.getElementById('f-ratio-vstar-formula').innerHTML = rvs.ratioFormula;
+  document.getElementById('f-val-mod-vstar').textContent     = rvs.mod.toFixed(4);
+  document.getElementById('f-mod-vstar-range').textContent   = rvs.label;
+  document.getElementById('f-mod-vstar-formula').innerHTML   = rvs.modFormula;
+
+  const vStarCoeff = (I * fu) / (vstarDivisor * ay) * rvs.mod;
+  document.getElementById('f-vstar-eq-label').textContent =
+    `⊹ 避免中小度地震降伏之設計地震力（依 ${vstarEq} 式，W 為建築物全部靜載重）`;
+  document.getElementById('f-val-vstar').textContent = `${vStarCoeff.toFixed(4)} × W`;
+  document.getElementById('f-vstar-formula').innerHTML =
+    `V* = IF<sub>u</sub> / (${vstarDivisor.toFixed(1)}α<sub>y</sub>) × (S<sub>aD</sub>/F<sub>u</sub>)<sub>m</sub> × W = ` +
+    `${I.toFixed(2)}×${fu.toFixed(4)} / (${vstarDivisor.toFixed(1)}×${ay.toFixed(1)}) × ${rvs.mod.toFixed(4)} × W = ${vStarCoeff.toFixed(4)} × W　${vstarEq}`;
+
+  /* ── F-3：避免最大考量地震崩塌之設計地震力 VM（2.10.2 節） ── */
+  document.getElementById('f-val-sam').textContent = sam.toFixed(4);
+  document.getElementById('f-val-fum').textContent = fum.toFixed(4);
+
+  const rm = calcRatioMod(sam, fum, 'M', '(2-13d)');
+  document.getElementById('f-val-ratio-vm').textContent   = rm.ratio.toFixed(4);
+  document.getElementById('f-ratio-vm-formula').innerHTML = rm.ratioFormula;
+  document.getElementById('f-val-mod-vm').textContent     = rm.mod.toFixed(4);
+  document.getElementById('f-mod-vm-range').textContent   = rm.label;
+  document.getElementById('f-mod-vm-formula').innerHTML   = rm.modFormula;
+
+  const vmCoeff = I / (1.4 * ay) * rm.mod;
+  document.getElementById('f-val-vm').textContent   = `${vmCoeff.toFixed(4)} × W`;
+  document.getElementById('f-vm-formula').innerHTML =
+    `V<sub>M</sub> = I / (1.4α<sub>y</sub>) × (S<sub>aM</sub>/F<sub>uM</sub>)<sub>m</sub> × W = ` +
+    `${I.toFixed(2)} / (1.4×${ay.toFixed(1)}) × ${rm.mod.toFixed(4)} × W = ${vmCoeff.toFixed(4)} × W　(2-13c)`;
+
+  /* ── F-4：三力並列 ── */
+  document.getElementById('f-val-v-final').textContent     = `${vCoeff.toFixed(4)} × W`;
+  document.getElementById('f-val-vstar-final').textContent = `${vStarCoeff.toFixed(4)} × W`;
+  document.getElementById('f-val-vm-final').textContent    = `${vmCoeff.toFixed(4)} × W`;
 }
