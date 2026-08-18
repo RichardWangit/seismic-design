@@ -1382,7 +1382,7 @@ function refreshPanelF() {
   document.getElementById('f-val-ratio-v').textContent   = rv.ratio.toFixed(4);
   document.getElementById('f-ratio-v-formula').innerHTML = rv.ratioFormula;
   document.getElementById('f-val-mod-v').textContent     = rv.mod.toFixed(4);
-  document.getElementById('f-mod-v-range').textContent   = rv.label;
+  document.getElementById('f-mod-v-range').innerHTML     = rv.label;
   document.getElementById('f-mod-v-formula').innerHTML   = rv.modFormula;
 
   const vCoeff = I / (1.4 * ay) * rv.mod;
@@ -1439,8 +1439,15 @@ function refreshPanelF() {
       `T<sub>0</sub><sup>D</sup> = S<sub>D1</sub> / S<sub>DS</sub> = ${sd1Nf.toFixed(2)} / ${sdsNf.toFixed(2)} = ${t0dNf.toFixed(4)} 秒　(2-6)`;
 
     const sadNf = calcSpectralAccel(bPeriodResult.T, t0dNf, sdsNf, sd1Nf, 'D');
-    document.getElementById('f-nf-val-sad').textContent   = sadNf.value.toFixed(4);
-    document.getElementById('f-nf-sad-range').textContent = sadNf.label;
+    document.getElementById('f-nf-val-sad').textContent = sadNf.value.toFixed(4);
+
+    let sadNfRangeHtml = sadNf.label;
+    if (bPeriodResult.T > t0dNf && bPeriodResult.T <= 2.5 * t0dNf) {
+      sadNfRangeHtml += `　T<sub>0</sub><sup>D</sup> = ${t0dNf.toFixed(4)} 秒，` +
+        `T = ${bPeriodResult.T.toFixed(4)} 秒，` +
+        `2.5T<sub>0</sub><sup>D</sup> = ${(2.5 * t0dNf).toFixed(4)} 秒`;
+    }
+    document.getElementById('f-nf-sad-range').innerHTML   = sadNfRangeHtml;
     document.getElementById('f-nf-sad-formula').innerHTML = sadNf.formula;
 
     sadForVstar  = sadNf.value;
@@ -1473,7 +1480,7 @@ function refreshPanelF() {
   document.getElementById('f-val-ratio-vstar').textContent   = rvs.ratio.toFixed(4);
   document.getElementById('f-ratio-vstar-formula').innerHTML = rvs.ratioFormula;
   document.getElementById('f-val-mod-vstar').textContent     = rvs.mod.toFixed(4);
-  document.getElementById('f-mod-vstar-range').textContent   = rvs.label;
+  document.getElementById('f-mod-vstar-range').innerHTML     = rvs.label;
   document.getElementById('f-mod-vstar-formula').innerHTML   = rvs.modFormula;
 
   const vStarCoeff = (I * fu) / (vstarDivisor * ay) * rvs.mod;
@@ -1492,7 +1499,7 @@ function refreshPanelF() {
   document.getElementById('f-val-ratio-vm').textContent   = rm.ratio.toFixed(4);
   document.getElementById('f-ratio-vm-formula').innerHTML = rm.ratioFormula;
   document.getElementById('f-val-mod-vm').textContent     = rm.mod.toFixed(4);
-  document.getElementById('f-mod-vm-range').textContent   = rm.label;
+  document.getElementById('f-mod-vm-range').innerHTML     = rm.label;
   document.getElementById('f-mod-vm-formula').innerHTML   = rm.modFormula;
 
   const vmCoeff = I / (1.4 * ay) * rm.mod;
