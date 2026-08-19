@@ -1442,10 +1442,20 @@ function refreshPanelF() {
     document.getElementById('f-nf-val-sad').textContent = sadNf.value.toFixed(4);
 
     let sadNfRangeHtml = sadNf.label;
-    if (bPeriodResult.T > t0dNf && bPeriodResult.T <= 2.5 * t0dNf) {
+    if (bPeriodResult.T <= 0.2 * t0dNf) {
+      sadNfRangeHtml += `　T = ${bPeriodResult.T.toFixed(4)} 秒，` +
+        `0.2T<sub>0</sub><sup>D</sup> = ${(0.2 * t0dNf).toFixed(4)} 秒`;
+    } else if (bPeriodResult.T <= t0dNf) {
+      sadNfRangeHtml += `　0.2T<sub>0</sub><sup>D</sup> = ${(0.2 * t0dNf).toFixed(4)} 秒，` +
+        `T = ${bPeriodResult.T.toFixed(4)} 秒，` +
+        `T<sub>0</sub><sup>D</sup> = ${t0dNf.toFixed(4)} 秒`;
+    } else if (bPeriodResult.T <= 2.5 * t0dNf) {
       sadNfRangeHtml += `　T<sub>0</sub><sup>D</sup> = ${t0dNf.toFixed(4)} 秒，` +
         `T = ${bPeriodResult.T.toFixed(4)} 秒，` +
         `2.5T<sub>0</sub><sup>D</sup> = ${(2.5 * t0dNf).toFixed(4)} 秒`;
+    } else {
+      sadNfRangeHtml += `　2.5T<sub>0</sub><sup>D</sup> = ${(2.5 * t0dNf).toFixed(4)} 秒，` +
+        `T = ${bPeriodResult.T.toFixed(4)} 秒`;
     }
     document.getElementById('f-nf-sad-range').innerHTML   = sadNfRangeHtml;
     document.getElementById('f-nf-sad-formula').innerHTML = sadNf.formula;
