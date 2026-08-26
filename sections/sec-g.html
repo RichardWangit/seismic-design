@@ -1,0 +1,428 @@
+  <main class="scroll">
+    <div class="scroll__inner">
+
+      <p class="placeholder" id="g-no-data">請先完成 A（工址位置）、B（S<sub>aD</sub>／S<sub>aM</sub>）、C（用途係數 I）、E（α<sub>y</sub>）、F（設計地震力 V／V*／V<sub>M</sub>）之查詢與計算</p>
+
+      <div id="g-content" style="display:none;">
+
+        <!-- ══ G-1：樓版系統引致之垂直地震力 Vz（依 2.18 節） ══ -->
+
+        <section class="query-box" aria-label="垂直地震力工址分類">
+          <span class="query-box__label">◈ 垂直地震力工址分類（依 A 區工址位置自動鎖定） ◈</span>
+          <p class="importance-note" id="g-zone-lock-note">—</p>
+        </section>
+
+        <!-- ══ 韌性容量 R = 3.0 與 Ra、Fuv、FuvM（同 D 區邏輯，2.18 節解說） ══ -->
+        <section class="query-box" id="g-ra-box" aria-label="垂直地震韌性容量與容許韌性容量">
+          <span class="query-box__label">◈ 垂直地震韌性容量 R 與容許韌性容量 R<sub>a</sub>（2.18 節解說：暫訂 R = 3.0） ◈</span>
+
+          <div class="coeff-grid coeff-grid--single">
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">垂直地震韌性容量（2.18 節解說暫訂值）</div>
+              <div class="coeff-cell__symbol">R</div>
+              <div class="coeff-cell__value">3.0</div>
+            </div>
+          </div>
+
+          <div class="zone-toggle">
+            <label id="btn-g-site-general" class="zone-btn zone-btn--general">
+              <input type="radio" name="g-site-type" value="general" id="g-site-general" disabled>
+              <span class="zone-btn__icon">◎</span>
+              <span class="zone-btn__text">
+                一般工址與近斷層工址
+                <small>R<sub>a</sub> = 1 + (R－1) / 1.5　(2-10)</small>
+              </span>
+            </label>
+            <label id="btn-g-site-taipei" class="zone-btn zone-btn--near">
+              <input type="radio" name="g-site-type" value="taipei" id="g-site-taipei" disabled>
+              <span class="zone-btn__icon">⚡</span>
+              <span class="zone-btn__text">
+                臺北盆地
+                <small>R<sub>a</sub> = 1 + (R－1) / 2.0　(2-11)</small>
+              </span>
+            </label>
+          </div>
+
+          <p class="importance-note" id="g-site-lock-note">—</p>
+
+          <div class="coeff-grid coeff-grid--single">
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">垂直地震結構系統容許韌性容量</div>
+              <div class="coeff-cell__symbol">R<sub>a,v</sub></div>
+              <div class="coeff-cell__value" id="g-val-ra">—</div>
+              <div class="coeff-cell__formula" id="g-ra-formula">—</div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 取自 B 區之基本振動週期</div>
+            <div class="coeff-grid coeff-grid--three">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">建築物基本振動週期（取自 B 區）</div>
+                <div class="coeff-cell__symbol">T</div>
+                <div class="coeff-cell__value" id="g-val-t">—</div>
+              </div>
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">短、中長週期分界（取自 B 區）</div>
+                <div class="coeff-cell__symbol">T<sub>0</sub><sup>D</sup></div>
+                <div class="coeff-cell__value" id="g-val-t0d">—</div>
+              </div>
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">(2-12) 式分段點</div>
+                <div class="coeff-cell__symbol">0.6T<sub>0</sub><sup>D</sup></div>
+                <div class="coeff-cell__value" id="g-val-06t0d">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 結構系統地震力折減係數 F<sub>uv</sub>（以 R<sub>a,v</sub> 代入 (2-12) 式）</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">垂直地震結構系統地震力折減係數</div>
+                <div class="coeff-cell__symbol">F<sub>uv</sub></div>
+                <div class="coeff-cell__value" id="g-val-fuv">—</div>
+                <div class="coeff-cell__note" id="g-fuv-range">—</div>
+                <div class="coeff-cell__formula" id="g-fuv-formula">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 結構系統地震力折減係數 F<sub>uvM</sub>（以 R = 3.0 代入 (2-12) 式）</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">垂直地震結構系統地震力折減係數（以 R 值計算）</div>
+                <div class="coeff-cell__symbol">F<sub>uvM</sub></div>
+                <div class="coeff-cell__value" id="g-val-fuvm">—</div>
+                <div class="coeff-cell__note" id="g-fuvm-range">—</div>
+                <div class="coeff-cell__formula" id="g-fuvm-formula">—</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ G-1-1：最小設計水平總橫力對應之樓版垂直地震力 Vz ══ -->
+        <section class="query-box" aria-label="最小設計水平總橫力對應之樓版垂直地震力">
+          <span class="query-box__label">◈ 對應「最小設計水平總橫力」之樓版垂直地震力 V<sub>z</sub>（依 (2-19)、(C2-10)、(C2-11a/b)） ◈</span>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 取自 F 區之 S<sub>aD</sub>，依 (2-19) 換算 S<sub>aD,V</sub></div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">工址設計水平譜加速度係數（取自 F 區）</div>
+                <div class="coeff-cell__symbol">S<sub>aD</sub></div>
+                <div class="coeff-cell__value" id="g-v-val-sad">—</div>
+              </div>
+            </div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">垂直向設計譜加速度係數</div>
+                <div class="coeff-cell__symbol">S<sub>aD,V</sub></div>
+                <div class="coeff-cell__value" id="g-v-val-sadv">—</div>
+                <div class="coeff-cell__formula" id="g-v-sadv-formula">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ S<sub>aD,V</sub> / F<sub>uv</sub> 之值</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">S<sub>aD,V</sub> / F<sub>uv</sub></div>
+                <div class="coeff-cell__value" id="g-v-val-ratio">—</div>
+                <div class="coeff-cell__formula" id="g-v-ratio-formula">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 依 (C2-11a) 或 (C2-11b) 修正 (S<sub>aD,V</sub>/F<sub>uv</sub>)<sub>m</sub></div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">(S<sub>aD,V</sub>/F<sub>uv</sub>)<sub>m</sub></div>
+                <div class="coeff-cell__value" id="g-v-val-mod">—</div>
+                <div class="coeff-cell__note" id="g-v-mod-range">—</div>
+                <div class="coeff-cell__formula" id="g-v-mod-formula">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 樓版系統垂直地震力（依 (C2-10) 式，I 取自 C 區、α<sub>y</sub> 取自 E 區，W 為樓版靜載重）</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">最小設計水平總橫力對應之樓版垂直地震力</div>
+                <div class="coeff-cell__symbol">V<sub>z</sub></div>
+                <div class="coeff-cell__value" id="g-v-val-vz">—</div>
+                <div class="coeff-cell__formula" id="g-v-vz-formula">—</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ G-1-2：避免中小度地震降伏對應之樓版垂直地震力 Vz ══ -->
+        <section class="query-box" aria-label="避免中小度地震降伏對應之樓版垂直地震力">
+          <span class="query-box__label">◈ 對應「避免中小度地震降伏之設計地震力」之樓版垂直地震力 V<sub>z</sub>* ◈</span>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 取自 F 區之 S<sub>aD</sub>（V* 案例，近斷層工址已排除近斷層效應），依 (2-19) 換算 S<sub>aD,V</sub></div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">計入 V* 計算之 S<sub>aD</sub>（取自 F 區）</div>
+                <div class="coeff-cell__symbol">S<sub>aD</sub></div>
+                <div class="coeff-cell__value" id="g-vs-val-sad">—</div>
+              </div>
+            </div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">垂直向設計譜加速度係數</div>
+                <div class="coeff-cell__symbol">S<sub>aD,V</sub></div>
+                <div class="coeff-cell__value" id="g-vs-val-sadv">—</div>
+                <div class="coeff-cell__formula" id="g-vs-sadv-formula">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ S<sub>aD,V</sub> / F<sub>uv</sub> 之值</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">S<sub>aD,V</sub> / F<sub>uv</sub></div>
+                <div class="coeff-cell__value" id="g-vs-val-ratio">—</div>
+                <div class="coeff-cell__formula" id="g-vs-ratio-formula">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 依 (C2-11a) 或 (C2-11b) 修正 (S<sub>aD,V</sub>/F<sub>uv</sub>)<sub>m</sub></div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">(S<sub>aD,V</sub>/F<sub>uv</sub>)<sub>m</sub></div>
+                <div class="coeff-cell__value" id="g-vs-val-mod">—</div>
+                <div class="coeff-cell__note" id="g-vs-mod-range">—</div>
+                <div class="coeff-cell__formula" id="g-vs-mod-formula">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 樓版系統垂直地震力（依 (C2-10) 式，I 取自 C 區、α<sub>y</sub> 取自 E 區，W 為樓版靜載重）</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">避免中小度地震降伏對應之樓版垂直地震力</div>
+                <div class="coeff-cell__symbol">V<sub>z</sub>*</div>
+                <div class="coeff-cell__value" id="g-vs-val-vz">—</div>
+                <div class="coeff-cell__formula" id="g-vs-vz-formula">—</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ G-1-3：避免最大考量地震崩塌對應之樓版垂直地震力 Vz ══ -->
+        <section class="query-box" aria-label="避免最大考量地震崩塌對應之樓版垂直地震力">
+          <span class="query-box__label">◈ 對應「避免最大考量地震崩塌之設計地震力」之樓版垂直地震力 V<sub>zM</sub> ◈</span>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 取自 F 區之 S<sub>aM</sub>，依 (2-19) 換算 S<sub>aM,V</sub></div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">工址最大考量水平譜加速度係數（取自 F 區）</div>
+                <div class="coeff-cell__symbol">S<sub>aM</sub></div>
+                <div class="coeff-cell__value" id="g-vm-val-sam">—</div>
+              </div>
+            </div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">垂直向最大考量譜加速度係數</div>
+                <div class="coeff-cell__symbol">S<sub>aM,V</sub></div>
+                <div class="coeff-cell__value" id="g-vm-val-samv">—</div>
+                <div class="coeff-cell__formula" id="g-vm-samv-formula">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ S<sub>aM,V</sub> / F<sub>uvM</sub> 之值</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">S<sub>aM,V</sub> / F<sub>uvM</sub></div>
+                <div class="coeff-cell__value" id="g-vm-val-ratio">—</div>
+                <div class="coeff-cell__formula" id="g-vm-ratio-formula">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 依 (C2-11a) 或 (C2-11b) 修正 (S<sub>aM,V</sub>/F<sub>uvM</sub>)<sub>m</sub></div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">(S<sub>aM,V</sub>/F<sub>uvM</sub>)<sub>m</sub></div>
+                <div class="coeff-cell__value" id="g-vm-val-mod">—</div>
+                <div class="coeff-cell__note" id="g-vm-mod-range">—</div>
+                <div class="coeff-cell__formula" id="g-vm-mod-formula">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 樓版系統垂直地震力（依 (C2-10) 式，I 取自 C 區、α<sub>y</sub> 取自 E 區，W 為樓版靜載重）</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__desc">避免最大考量地震崩塌對應之樓版垂直地震力</div>
+                <div class="coeff-cell__symbol">V<sub>zM</sub></div>
+                <div class="coeff-cell__value" id="g-vm-val-vz">—</div>
+                <div class="coeff-cell__formula" id="g-vm-vz-formula">—</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ G-1-4：三力並列 ══ -->
+        <section class="query-box" aria-label="樓版垂直地震力並列總結">
+          <span class="query-box__label">◈ 樓版系統垂直地震力總覽 ◈</span>
+          <div class="coeff-grid coeff-grid--three">
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">最小設計水平總橫力對應</div>
+              <div class="coeff-cell__symbol">V<sub>z</sub></div>
+              <div class="coeff-cell__value" id="g-val-v-final">—</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">避免中小度地震降伏對應</div>
+              <div class="coeff-cell__symbol">V<sub>z</sub>*</div>
+              <div class="coeff-cell__value" id="g-val-vstar-final">—</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">避免最大考量地震崩塌對應</div>
+              <div class="coeff-cell__symbol">V<sub>zM</sub></div>
+              <div class="coeff-cell__value" id="g-val-vm-final">—</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ G-2：柱垂直地震力（2.18 節解說） ══ -->
+
+        <section class="query-box" aria-label="柱垂直地震力公式鎖定">
+          <span class="query-box__label">◈ 柱垂直地震力公式（依 A 區工址位置自動鎖定，2.18 節解說） ◈</span>
+          <p class="importance-note" id="g-col-zone-note">—</p>
+        </section>
+
+        <!-- ══ G-2-1：最小設計水平總橫力對應之柱垂直地震力係數 ══ -->
+        <section class="query-box" aria-label="最小設計水平總橫力對應之柱垂直地震力係數">
+          <span class="query-box__label">◈ 對應「最小設計水平總橫力」之柱垂直地震力係數 ◈</span>
+          <div class="coeff-grid coeff-grid--three" id="g-col-min-grid">
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">工址短週期設計水平譜加速度係數（取自 F 區）</div>
+              <div class="coeff-cell__symbol">S<sub>DS</sub></div>
+              <div class="coeff-cell__value" id="g-col-min-val-sds">—</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">用途係數（取自 C 區）</div>
+              <div class="coeff-cell__symbol">I</div>
+              <div class="coeff-cell__value" id="g-col-min-val-i">—</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">起始降伏地震力放大倍數（取自 E 區）</div>
+              <div class="coeff-cell__symbol">α<sub>y</sub></div>
+              <div class="coeff-cell__value" id="g-col-min-val-alphay">—</div>
+            </div>
+          </div>
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 柱垂直地震力係數（乘以柱單位長度重量）</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__value" id="g-col-min-val-coeff">—</div>
+                <div class="coeff-cell__formula" id="g-col-min-formula">—</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ G-2-2：避免中小度地震降伏對應之柱垂直地震力係數 ══ -->
+        <section class="query-box" aria-label="避免中小度地震降伏對應之柱垂直地震力係數">
+          <span class="query-box__label">◈ 對應「避免中小度地震降伏之設計地震力」之柱垂直地震力係數 ◈</span>
+          <div class="coeff-grid coeff-grid--three" id="g-col-vstar-grid">
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">工址短週期設計水平譜加速度係數（V* 案例，取自 F 區）</div>
+              <div class="coeff-cell__symbol">S<sub>DS</sub></div>
+              <div class="coeff-cell__value" id="g-col-vstar-val-sds">—</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">用途係數（取自 C 區）</div>
+              <div class="coeff-cell__symbol">I</div>
+              <div class="coeff-cell__value" id="g-col-vstar-val-i">—</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">起始降伏地震力放大倍數（取自 E 區）</div>
+              <div class="coeff-cell__symbol">α<sub>y</sub></div>
+              <div class="coeff-cell__value" id="g-col-vstar-val-alphay">—</div>
+            </div>
+          </div>
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 柱垂直地震力係數（乘以柱單位長度重量）</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__value" id="g-col-vstar-val-coeff">—</div>
+                <div class="coeff-cell__formula" id="g-col-vstar-formula">—</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ G-2-3：避免最大考量地震崩塌對應之柱垂直地震力係數 ══ -->
+        <section class="query-box" aria-label="避免最大考量地震崩塌對應之柱垂直地震力係數">
+          <span class="query-box__label">◈ 對應「避免最大考量地震崩塌之設計地震力」之柱垂直地震力係數 ◈</span>
+          <div class="coeff-grid coeff-grid--three" id="g-col-mce-grid">
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">工址短週期最大考量水平譜加速度係數（取自 F 區）</div>
+              <div class="coeff-cell__symbol">S<sub>DS</sub></div>
+              <div class="coeff-cell__value" id="g-col-mce-val-sds">—</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">用途係數（取自 C 區）</div>
+              <div class="coeff-cell__symbol">I</div>
+              <div class="coeff-cell__value" id="g-col-mce-val-i">—</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">起始降伏地震力放大倍數（取自 E 區）</div>
+              <div class="coeff-cell__symbol">α<sub>y</sub></div>
+              <div class="coeff-cell__value" id="g-col-mce-val-alphay">—</div>
+            </div>
+          </div>
+          <div class="zone-row">
+            <div class="zone-row__label">⊹ 柱垂直地震力係數（乘以柱單位長度重量）</div>
+            <div class="coeff-grid coeff-grid--single">
+              <div class="coeff-cell">
+                <div class="coeff-cell__value" id="g-col-mce-val-coeff">—</div>
+                <div class="coeff-cell__formula" id="g-col-mce-formula">—</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ G-2-4：三值並列 ══ -->
+        <section class="query-box" aria-label="柱垂直地震力係數並列總結">
+          <span class="query-box__label">◈ 柱垂直地震力係數總覽 ◈</span>
+          <div class="coeff-grid coeff-grid--three">
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">最小設計水平總橫力對應</div>
+              <div class="coeff-cell__value" id="g-col-val-min-final">—</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">避免中小度地震降伏對應</div>
+              <div class="coeff-cell__value" id="g-col-val-vstar-final">—</div>
+            </div>
+            <div class="coeff-cell">
+              <div class="coeff-cell__desc">避免最大考量地震崩塌對應</div>
+              <div class="coeff-cell__value" id="g-col-val-mce-final">—</div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="ornament" aria-hidden="true">⊸ · · · ⊷</div>
+
+    </div>
+  </main>
